@@ -49,7 +49,18 @@ class PostAQuestion extends Component {
 
   render () {
     return (
-      // NAVBAR!
+      <div>
+        <header>
+        <ul>
+          <li><a href="/"><img src='./images/whatisit.png' /></a></li>
+          <li><a href="/user/id">My Questions</a></li>
+          <li><a href="/questions/qid"></a>Last Q</li>
+          <li><a href="/">Logout</a></li>
+        </ul>
+        {/* NAVBAR */}
+
+        </header>
+      </div>
       <div>
         <h2 className='header'>Post a Question</h2>
         <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
