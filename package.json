@@ -1,0 +1,33 @@
+{
+  "name": "hw-react-question-box-the-silver-snakes",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@storybook/cli": "^3.4.6",
+    "babel": "^6.23.0",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-foundation": "^0.9.5",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "superagent": "^3.8.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.4.6",
+    "@storybook/addon-links": "^3.4.6",
+    "@storybook/addons": "^3.4.6",
+    "@storybook/react": "^3.4.6",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0"
+  }
+}
