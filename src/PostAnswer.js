@@ -10,7 +10,6 @@ class PostAnswer extends Component {
     super()
     this.state = {
       questionId: this.props.questionId,
-      answerId: null, // When is this assigned?
       userId: '',
       title: '',
       content: '',
@@ -33,16 +32,14 @@ class PostAnswer extends Component {
       content: this.state.content,
       image: this.state.image,
       token: window.localStorage.token
-    // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page?
     }
     console.log(body)
     event.preventDefault()
     request
-      .post(`api/v1/questions/{this.state.questionId}/answers`)
+      .post(`api/v1/questions/${this.state.questionId}/answers`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .end()
-      // Go to view of question
     this.changePostingStatus()
   }
 

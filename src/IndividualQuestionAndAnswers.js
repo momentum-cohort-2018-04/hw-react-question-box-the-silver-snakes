@@ -38,7 +38,7 @@ class IndividualQuestionAndAnswers extends Component {
 
   getAnswerArray () {
     request
-      .get(`api/v1/questions/questionid/answers`)
+      .get(`api/v1/questions/${questionid}/answers`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .then(response => {
         let answerArray = response.body

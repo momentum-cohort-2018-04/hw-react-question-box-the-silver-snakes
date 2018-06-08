@@ -29,7 +29,6 @@ class PostQuestion extends Component {
       content: this.state.content,
       image: this.state.image,
       token: window.localStorage.token
-    // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page?
     }
     console.log(body)
     event.preventDefault()
