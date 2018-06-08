@@ -6,6 +6,7 @@ import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
+
 class PostAQuestion extends Component {
   constructor (props) {
     super()
@@ -50,27 +51,29 @@ class PostAQuestion extends Component {
   render () {
     return (
       <div>
-        <header>
-        <ul>
-          <li><a href="/"><img src='./images/whatisit.png' /></a></li>
-          <li><a href="/user/id">My Questions</a></li>
-          <li><a href="/questions/qid"></a>Last Q</li>
-          <li><a href="/">Logout</a></li>
-        </ul>
-        {/* NAVBAR */}
-
-        </header>
+        <div>
+          <header>
+            <ul>
+              <li><a href='/'><img src='./images/whatisit.png' /></a></li>
+              <li><a href='/user/id'>My Questions</a></li>
+              <li><a href='/questions/qid'>Last Q</a></li>
+              <li><a href='/??'>Logout</a></li>
+            </ul>
+          </header>
+        </div>
+        <div>
+          <h2 className='header'>Post a Question</h2>
+          <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
+          Title: <input type='text' name='title' onChange={this.handleChange} />
+          Content: <input type='textarea' name='content' onChange={this.handleChange} />
+          Photo: <input type='file' accept='image/*' />
+            {/* Photo: How to get photos  */}
+            <button className='submitButton' type='submit'>Submit</button>
+            <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
+          </form>
+        </div>
       </div>
-      <div>
-        <h2 className='header'>Post a Question</h2>
-        <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
-        Title: <input type='text' name='title' onChange={this.handleChange} />
-        Content: <input type='textarea' name='content' onChange={this.handleChange} />
-        {/* Photo: How to get photos  */}
-          <button className='submitButton' type='submit'>Submit</button>
-          <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
-        </form>
-      </div>
+    )
   }
 }
 
