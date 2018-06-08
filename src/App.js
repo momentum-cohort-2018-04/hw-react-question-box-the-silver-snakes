@@ -5,7 +5,7 @@ import Questions from './Questions'
 class App extends Component {
   render () {
     return (
-      console.log('banana')
+      <Questions />
     )
   }
 }

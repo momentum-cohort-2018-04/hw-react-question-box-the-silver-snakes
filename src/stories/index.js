@@ -1,13 +1,15 @@
-import React from 'react';
+import React from 'react'
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
+import { linkTo } from '@storybook/addon-links'
 
-import { Button, Welcome } from '@storybook/react/demo';
-import PostAQuestion from '../PostAQuestion'
+import { Button, Welcome } from '@storybook/react/demo'
+import PostAQuestion from '../PostQuestion'
 import '../App.css'
 import Questions from '../Questions'
+// import IndividualQuestionAndAnswers from '../IndividualQuestionAndAnswers'
+import PostAnswer from '../PostAnswer'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -21,8 +23,14 @@ storiesOf('Button', module)
     </Button>
   ));
 
-storiesOf('PostAQuestion', module)
+storiesOf('PostQuestion', module)
   .add('with text', () => <PostAQuestion />)
 
 storiesOf('Questions', module)
   .add('simpleRender', () => <Questions />)
+
+// storiesOf('IndividualQuestionsAndAnswers', module)
+//   .add('simpleRender', () => <IndividualQuestionAndAnswers />)
+
+storiesOf('PostAnswer', module)
+  .add('simpleRender', () => <PostAnswer />)
