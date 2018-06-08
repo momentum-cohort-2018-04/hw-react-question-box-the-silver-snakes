@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 // import request from 'superagent'
+import Foundation, {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
 import db from './db'
 
 class Questions extends Component {
@@ -7,7 +8,7 @@ class Questions extends Component {
     super()
     this.state = {
       token: window.localStorage.token,
-      question: db
+      questions: db
     }
   }
 
@@ -19,11 +20,11 @@ class Questions extends Component {
     this.setState({question: db})
     // request
   //     .get('api/v1/questions')
-  //     .head(`Bearer ${this.state.token}`)
+  //     .set('Authorization', 'Bearer ' + this.state.token)
   //     .then((response) => {
   //       if (response.status === 200) {
-  //         this.setState({question: db})
-  //         // this.setState({question: response.questions})
+  //         this.setState({questions: db})
+  //         // this.setState({questions: response.questions})
   //       }
   //     })
   //     .catch((error) => {
@@ -32,8 +33,8 @@ class Questions extends Component {
   }
 
   render () {
-    console.log(this.state.question)
-    const fuck = this.state.question.map((entry, index) => {
+    console.log(this.state.questions)
+    const fuck = this.state.questions.map((entry, index) => {
       const id = entry.id
       const title = entry.title
       const content = entry.content
@@ -41,25 +42,24 @@ class Questions extends Component {
       const user = entry.user
       // console.log(id, title, content, image, user)
       return (
-        <div className='preview_question red' key={index} id={id}>
-          <div className='question_title yellow'>
-            <h2>{title}</h2>
-          </div>
-          <div className='question_user green'>User Number {user}</div>
-          <div className='question-split blue '>
-            <div className='question_content purple'>
+        <div className='media-object-stack-example' key={index} id={id}>
+          <MediaObject stackForSmall>
+            <MediaObjectSection isMiddle>
+              {image && <Thumbnail src={image} className='better' />}
+            </MediaObjectSection>
+            <MediaObjectSection isMain>
+              <h3>{title}</h3>
+              <h5>User Number {user}</h5>
               <p>{content}</p>
-            </div>
-            {image && <div className='question_image purple'><img src={image} /></div>}
-          </div>
-
+            </MediaObjectSection>
+          </MediaObject>
         </div>)
     })
     return (
       <div className='main'>
         <div className='title'><h1>Free For All~</h1></div>
         <div className='button'>Add Question goes here</div>
-        <div className='archive'>{fuck}</div>
+        {fuck}
       </div>
     )
   }

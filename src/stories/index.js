@@ -8,6 +8,7 @@ import { Button, Welcome } from '@storybook/react/demo';
 import PostAQuestion from '../PostAQuestion'
 import '../App.css'
 import Questions from '../Questions'
+import Login from '../Login'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -26,3 +27,6 @@ storiesOf('PostAQuestion', module)
 
 storiesOf('Questions', module)
   .add('simpleRender', () => <Questions />)
+
+storiesOf('BaseLogin', module)
+  .add('simpleRender', () => <Login />)
