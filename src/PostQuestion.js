@@ -5,19 +5,19 @@ import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-class PostAQuestion extends Component {
+class PostQuestion extends Component {
   constructor (props) {
     super()
     this.state = {
       questionId: null, // When is this assigned?
-      userId: ''// this.props.userId?,//
-      ,
+      userId: '',
       title: '',
       content: '',
       image: 'https://tinyurl.com/yb7ek22r'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleImage = this.handleImage.bind(this)
   }
 
   handleSubmit (event) {
@@ -85,4 +85,4 @@ class PostAQuestion extends Component {
   }
 }
 
-export default PostAQuestion
+export default PostQuestion

@@ -4,7 +4,7 @@ import './App.css'
 import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import SubmitAnswer from 'SubmitAnswer'
+import PostAnswer from 'PostAnswer'
 
 class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
@@ -14,14 +14,14 @@ class IndividualQuestionAndAnswers extends Component {
       questionId: this.props.id,
       questionTitle: this.props.title,
       questionContent: this.props.content,
-      questionCreateDate: this.props.created_at, // Need to transform into normal date form
+      questionCreateDate: this.props.created_at,
       questionImage: this.props.image,
       answerArray: [],
       token: window.localStorage.token,
-      submitAnAnswer: false
+      postAnAnswer: false
     }
-    // this.handleChange = this.handleChange.bind(this)
-    this.submitAnAnswer = this.submitAnAnswer.bind(this)
+
+    this.postAnAnswerToTrue = this.submitAnAnswerToTrue.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
   }
@@ -46,14 +46,14 @@ class IndividualQuestionAndAnswers extends Component {
       })
   }
 
-  submitAnAnswer () {
+  postAnAnswerToTrue () {
     this.setState({submitAnAnswer: true})
   }
 
   render () {
-    if (this.state.submitAnAnswer) {
+    if (this.state.postAnAnswer) {
       return (
-        <SubmitAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={ this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} />)
+        <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} />)
     } else {
       return (
         <div>
@@ -74,7 +74,7 @@ class IndividualQuestionAndAnswers extends Component {
             <img src={this.props.questionImage} />
           </div>
           <div className='answerButtonDiv'>
-            <button className='postAnswerButton' onClick={this.submitAnAnswer}>Answer</button>
+            <button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</button>
           </div>
           <div clasName='answerDisplayDiv'>
             {this.state.answerArray.map((answer, i) => (
@@ -82,6 +82,7 @@ class IndividualQuestionAndAnswers extends Component {
                 <h4>{answer.title}</h4>
                 <p>{answer.username} {answer.created_at}</p>
                 <p>{answer.content}</p>
+                <img src={answer.image} />
                 <button>Upvote</button>
               </div>
             )
