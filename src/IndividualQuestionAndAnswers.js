@@ -23,10 +23,17 @@ class IndividualQuestionAndAnswers extends Component {
     // this.handleChange = this.handleChange.bind(this)
     this.submitAnAnswer = this.submitAnAnswer.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
+    this.transformDate = this.transformDate.bind(this)
   }
 
   componentDidUpdate () {
     this.getAnswerArray()
+    this.transformDate()
+  }
+
+  transformDate () {
+    let date = moment(this.state.questionCreateDate).format('MMMM Do YYYY')
+    this.setState({questionCreateDate: date})
   }
 
   getAnswerArray () {
