@@ -5,17 +5,16 @@ import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-
-
 class PostAQuestion extends Component {
   constructor (props) {
     super()
     this.state = {
-      questionId: null,
-      userId: null,
+      questionId: null, // When is this assigned?
+      userId: ''// this.props.userId?,//
+      ,
       title: '',
       content: '',
-      image: null
+      image: 'https://tinyurl.com/yb7ek22r'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -29,8 +28,8 @@ class PostAQuestion extends Component {
       title: this.state.title,
       content: this.state.content,
       image: this.state.image
-    // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page
-  }
+    // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page?
+    }
     console.log(body)
     event.preventDefault()
     request
@@ -48,6 +47,15 @@ class PostAQuestion extends Component {
     this.setState({[name]: value})
   }
 
+  handleImage (event) {
+    event.preventDefault()
+    const name = event.target.name
+    const value = event.target.value
+    if (value) {
+      this.setState({[name]: value})
+    }
+  }
+
   render () {
     return (
       <div>
@@ -56,7 +64,7 @@ class PostAQuestion extends Component {
             <ul>
               <li><a href='/'><img src='./images/whatisit.png' /></a></li>
               <li><a href='/user/id'>My Questions</a></li>
-              <li><a href='/questions/qid'>Last Q</a></li>
+              <li><a href='/questions/qid?'>Last Q</a></li>
               <li><a href='/??'>Logout</a></li>
             </ul>
           </header>
@@ -66,8 +74,7 @@ class PostAQuestion extends Component {
           <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
           Title: <input type='text' name='title' onChange={this.handleChange} />
           Content: <input type='textarea' name='content' onChange={this.handleChange} />
-          Photo: <input type='file' accept='image/*' />
-            {/* Photo: How to get photos  */}
+          Photo URL: <input type='url' name='image' onChange={this.handleImage} />
             <button className='submitButton' type='submit'>Submit</button>
             <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
           </form>
