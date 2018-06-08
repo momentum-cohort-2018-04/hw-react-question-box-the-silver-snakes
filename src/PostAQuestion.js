@@ -27,14 +27,15 @@ class PostAQuestion extends Component {
       userId: this.state.userId,
       title: this.state.title,
       content: this.state.content,
-      image: this.state.image
+      image: this.state.image,
+      token: window.localStorage.token
     // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page?
     }
     console.log(body)
     event.preventDefault()
     request
       .post(`api/v1/questions`)
-      .auth(localStorage.username, localStorage.password)
+      .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .end()
       // Go to view of question

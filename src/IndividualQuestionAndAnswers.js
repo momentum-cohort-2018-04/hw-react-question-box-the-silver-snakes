@@ -4,88 +4,85 @@ import './App.css'
 import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import SubmitAnswer from 'SubmitAnswer'
 
 class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
     super()
     this.state = {
-      // answerFormExpanded: false,
-      questionId: null,
-      questionTitle: '',
-      questionContent: '',
-      questionCreateDate: '',
-      questionImage: ''
-      answerArray: []
+      userId: this.props.user_id,
+      questionId: this.props.id,
+      questionTitle: this.props.title,
+      questionContent: this.props.content,
+      questionCreateDate: this.props.created_at, // Need to transform into normal date form
+      questionImage: this.props.image,
+      answerArray: [],
+      token: window.localStorage.token,
+      submitAnAnswer: false
     }
     // this.handleChange = this.handleChange.bind(this)
-    // this.handleSubmit = this.handleSubmit.bind(this)
-    // this.expandAnswerForm = this.expandAnswerForm.bind(this)
+    this.submitAnAnswer = this.submitAnAnswer.bind(this)
+    this.getAnswerArray = this.getAnswerArray.bind(this)
   }
 
-  // handleSubmit (event) {
-  //   event.preventDefault()
-  //   const body = {
-  //     questionId: this.state.questionId,
-  //     userId: this.state.userId,
-  //     title: this.state.title,
-  //     content: this.state.content,
-  //     image: this.state.image
-  //   // Don't think we need date info here, as back end will generate it at time of creation, then we will need to retrieve it for the question/answer display page?
-  //   }
-  //   console.log(body)
-  //   event.preventDefault()
-  //   request
-  //     .post(`api/v1/questions`)
-  //     .auth(localStorage.username, localStorage.password)
-  //     .send(body)
-  //     .end()
-  //     // Go to view of question
-  // }
+  componentDidUpdate () {
+    this.getAnswerArray()
+  }
 
-  // handleChange (event) {
-  //   event.preventDefault()
-  //   const name = event.target.name
-  //   const value = event.target.value
-  //   this.setState({[name]: value})
-  // }
-
-  getQuestionInfo() {
+  getAnswerArray () {
     request
-      .get(`api/v1/questions/questionid`)
-      .auth(localStorage.username, localStorage.password)
+      .get(`api/v1/questions/questionid/answers`)
+      .set('Authorization', 'Bearer ' + this.state.token)
       .then(response => {
-        let contactListArray = response.body
-        console.log(contactListArray)
-        this.setState({contactList: contactListArray})
+        let answerArray = response.body
+        this.setState({answerArray: answerArray})
       })
   }
 
+  submitAnAnswer () {
+    this.setState({submitAnAnswer: true})
+  }
+
   render () {
-    return (
-      <div>
+    if (this.state.submitAnAnswer) {
+      return (
+        <SubmitAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={ this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} />)
+    } else {
+      return (
         <div>
-          <header>
-            <ul>
-              <li><a href='/'><img src='./images/whatisit.png' /></a></li>
-              <li><a href='/user/id'>My Questions</a></li>
-              <li><a href='/questions/qid'>Last Q</a></li>
-              <li><a href='/??'>Logout</a></li>
-            </ul>
-          </header>
-        </div>
-        <div>
-          <h2 className='header'>Title{this.props.title}</h2>
-          <p>Created on {this.props.createDate}
-          <p>{this.props.content}</p>
-          <img src={this.props.image} />
-          <button className='postAnswerButton' onClick={this.expandAnswerForm}>Answer</button>
-          {/* Conditionally rendered answer form section?? */}
           <div>
-            {/* Answer Text */}
+            <header className='navbar'>
+              <ul>
+                <li><a href='/'><img src='./images/whatisit.png' /></a></li>
+                <li><a href='/user/id'>My Questions</a></li>
+                <li><a href='/questions/qid'>Last Q</a></li>
+                <li><a href='/??'>Logout</a></li>
+              </ul>
+            </header>
+          </div>
+          <div className='questionDisplayDiv'>
+            <h2 className='header'>{this.props.title}</h2>
+            <p>Created on {this.props.questionCreateDate}</p>
+            <p>{this.props.questionContent}</p>
+            <img src={this.props.questionImage} />
+          </div>
+          <div className='answerButtonDiv'>
+            <button className='postAnswerButton' onClick={this.submitAnAnswer}>Answer</button>
+          </div>
+          <div clasName='answerDisplayDiv'>
+            {this.state.answerArray.map((answer, i) => (
+              <div key={answer.id} className='answerDiv'>
+                <h4>{answer.title}</h4>
+                <p>{answer.username} {answer.created_at}</p>
+                <p>{answer.content}</p>
+                <button>Upvote</button>
+              </div>
+            )
+            )}
           </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
