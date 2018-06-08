@@ -6,6 +6,8 @@ import { linkTo } from '@storybook/addon-links';
 
 import { Button, Welcome } from '@storybook/react/demo';
 import PostAQuestion from '../PostAQuestion'
+import '../App.css'
+import Questions from '../Questions'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -21,3 +23,6 @@ storiesOf('Button', module)
 
 storiesOf('PostAQuestion', module)
   .add('with text', () => <PostAQuestion />)
+
+storiesOf('Questions', module)
+  .add('simpleRender', () => <Questions />)
