@@ -3,14 +3,15 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
-
 import { Button, Welcome } from '@storybook/react/demo'
+
 import PostAQuestion from '../PostQuestion'
 import '../App.css'
 import Questions from '../Questions'
-// import IndividualQuestionAndAnswers from '../IndividualQuestionAndAnswers'
+import IndividualQuestionAndAnswers from '../IndividualQuestionAndAnswers'
 import PostAnswer from '../PostAnswer'
 import Login from '../Login'
+import Register from '../Register'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
@@ -27,13 +28,17 @@ storiesOf('Button', module)
 storiesOf('PostQuestion', module)
   .add('with text', () => <PostAQuestion />)
 
+storiesOf('PostAnswer', module)
+  .add('simpleRender', () => <PostAnswer questionId='2' />)
+
 storiesOf('Questions', module)
   .add('simpleRender', () => <Questions />)
 
-// storiesOf('IndividualQuestionsAndAnswers', module)
-//   .add('simpleRender', () => <IndividualQuestionAndAnswers />)
+storiesOf('IndividualQuestionsAndAnswers', module)
+  .add('simpleRender', () => <IndividualQuestionAndAnswers user_id='24' id='4' title='AHHHHH' content='AKSJDHAKJSHDKA' created_at='05 18 2009' image='' />)
+
 storiesOf('BaseLogin', module)
   .add('simpleRender', () => <Login />)
 
-storiesOf('PostAnswer', module)
-  .add('simpleRender', () => <PostAnswer />)
+storiesOf('Register', module)
+  .add('simpleRender', () => <Register />)

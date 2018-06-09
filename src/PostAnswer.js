@@ -3,7 +3,10 @@ import './App.css'
 import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import IndividualQuesetionAndAnswers from 'IndividualQuestionAndAnswers'
+import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
+
+import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
+import './foundation.css'
 
 class PostAnswer extends Component {
   constructor (props) {
@@ -39,8 +42,12 @@ class PostAnswer extends Component {
       .post(`api/v1/questions/${this.state.questionId}/answers`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
+      .then((response) => {
+        if (response.status === 201) {
+          this.changePostingStatus()
+        }
+      })
       .end()
-    this.changePostingStatus()
   }
 
   handleChange (event) {
@@ -66,18 +73,22 @@ class PostAnswer extends Component {
   render () {
     if (this.state.donePosting) {
       return (
-        <IndividualQuesetionAndAnswers  />)
+        <IndividualQuestionAndAnswers />)
     } else {
       return (
         <div>
           <div>
             <header>
-              <ul>
-                <li><a href='/'><img src='./images/whatisit.png' /></a></li>
-                <li><a href='/user/id'>My Questions</a></li>
-                <li><a href='/questions/qid?'>Last Q</a></li>
-                <li><a href='/??'>Logout</a></li>
-              </ul>
+              <div className='breadcrumbs-example'>
+                <nav aria-label='You are here:' role='navigation'>
+                  <Breadcrumbs>
+                    <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem>
+                    <BreadcrumbItem><a href='/user/id'>My Questions</a></BreadcrumbItem>
+                    <BreadcrumbItem><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
+                    <BreadcrumbItem><a href='/??'>Logout</a></BreadcrumbItem>
+                  </Breadcrumbs>
+                </nav>
+              </div>
             </header>
           </div>
           <div>

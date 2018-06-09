@@ -5,6 +5,7 @@
   "dependencies": {
     "@storybook/cli": "^3.4.6",
     "babel": "^6.23.0",
+    "foundation-sites": "^6.4.4-rc1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
