@@ -78,7 +78,7 @@ class PostQuestion extends Component {
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
             <Button className='submitButton' type='submit'>Submit</Button>
-            <Button className='cancelButton' onClick={this.props.notAddingQuestion} isHollow >Cancel</Button>
+            <Button className='cancelButton' onClick={this.props.cancelSubmit} isHollow >Cancel</Button>
           </form>
         </div>
       </div>

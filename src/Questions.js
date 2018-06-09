@@ -9,13 +9,19 @@ class Questions extends Component {
     super()
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
-      questions: db
+      questions: db,
+      cancelSubmit: false
     }
   }
 
   componentDidMount () {
     this.getQuestions()
   }
+
+  cancelSubmit () {
+    this.setState({cancelSubmit: true})
+  }
+  // Need to link above function to "PostQuesion"
 
   getQuestions () {
     this.setState({question: db})
@@ -69,6 +75,7 @@ class Questions extends Component {
         <div className='text-center'>
           {this.state.token && <button className='button'>Add Question</button>}
           {/* Button will be a link eventually properly */}
+          {/* Need to pass cancelSubmit as function with link */}
           {!this.state.token && 'Login to be able to ask Questions'}</div>
         <div className='questionsAll'>{questionList}</div>
       </div>

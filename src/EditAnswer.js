@@ -99,7 +99,7 @@ class EditAnswer extends Component {
             Answer: <input type='textarea' name='content' value='this.state.content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' value='this.state.image' onChange={this.handleImage} />
               <button className='submitButton' type='submit'>Submit</button>
-              <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
+              <button className='cancelButton' onClick={this.props.cancelSubmit}>Cancel</button>
             </form>
           </div>
         </div>

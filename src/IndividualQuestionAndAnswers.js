@@ -30,6 +30,7 @@ class IndividualQuestionAndAnswers extends Component {
     this.postAnAnswerToTrue = this.postAnAnswerToTrue.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
+    this.cancelSubmit = this.cancelSubmit.bind(this)
   }
 
   componentDidUpdate () {
@@ -56,10 +57,14 @@ class IndividualQuestionAndAnswers extends Component {
     this.setState({submitAnAnswer: true})
   }
 
+  cancelSubmit () {
+    this.setState({postAnAnswer: false})
+  }
+
   render () {
     if (this.state.postAnAnswer) {
       return (
-        <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} />)
+        <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} cancelSubmit={this.cancelSubmit.bind(this)} />)
     } else {
       return (
         <div>

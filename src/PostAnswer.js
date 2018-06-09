@@ -99,7 +99,7 @@ class PostAnswer extends Component {
             Answer: <input type='textarea' className='content-textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
               <Button className='submitButton' type='submit'>Submit</Button>
-              <Button className='cancelButton' onClick={this.props.notAddingQuestion} isHollow >Cancel</Button>
+              <Button className='cancelButton' onClick={this.props.cancelSubmit} isHollow >Cancel</Button>
             </form>
           </div>
         </div>
