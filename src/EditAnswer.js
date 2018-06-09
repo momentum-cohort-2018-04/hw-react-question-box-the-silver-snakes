@@ -8,15 +8,16 @@ import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
 import './foundation.css'
 
-class PostAnswer extends Component {
+class EditAnswer extends Component {
   constructor (props) {
     super()
     this.state = {
       questionId: this.props.questionId,
-      userId: '',
-      title: '',
-      content: '',
-      image: 'https://tinyurl.com/yb7ek22r',
+      answerId: this.props.answerId,
+      userId: this.props.userId,
+      title: this.props.title,
+      content: this.props.content,
+      image: this.props.image,
       donePosting: false
     }
     this.handleChange = this.handleChange.bind(this)
@@ -28,19 +29,18 @@ class PostAnswer extends Component {
   handleSubmit (event) {
     event.preventDefault()
     const body = {
-      questionId: this.props.questionId,
+      questionId: this.state.questionId,
       answerId: this.state.answerId,
       userId: this.state.userId,
       title: this.state.title,
       content: this.state.content,
       image: this.state.image,
-      token: window.localStorage.token,
-      donePosting: false
+      token: window.localStorage.token
     }
     console.log(body)
     event.preventDefault()
     request
-      .post(`api/v1/questions/${this.state.questionId}/answers`)
+      .put(`api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .then((response) => {
@@ -74,7 +74,7 @@ class PostAnswer extends Component {
   render () {
     if (this.state.donePosting) {
       return (
-        <IndividualQuestionAndAnswers questionId={this.questionId} />)
+        <IndividualQuestionAndAnswers questionId={this.state.questionId} />)
     } else {
       return (
         <div>
@@ -93,11 +93,11 @@ class PostAnswer extends Component {
             </header>
           </div>
           <div>
-            <h2 className='header'>Answer a Question</h2>
+            <h2 className='header'>Edit An Answer</h2>
             <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
-            Title: <input type='text' name='title' onChange={this.handleChange} />
-            Answer: <input type='textarea' name='content' onChange={this.handleChange} />
-            Photo URL: <input type='url' name='image' onChange={this.handleImage} />
+            Title: <input type='text' name='title' value='this.state.title' onChange={this.handleChange} />
+            Answer: <input type='textarea' name='content' value='this.state.content' onChange={this.handleChange} />
+            Photo URL: <input type='url' name='image' value='this.state.image' onChange={this.handleImage} />
               <button className='submitButton' type='submit'>Submit</button>
               <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
             </form>
@@ -108,4 +108,4 @@ class PostAnswer extends Component {
   }
 }
 
-export default PostAnswer
+export default EditAnswer
