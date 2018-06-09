@@ -89,10 +89,17 @@ class IndividualQuestionAndAnswers extends Component {
             <div clasName='answerDisplayDiv'>
               <div key='123' className='answerDiv'>
                 <h4>It's a pugantula</h4>
-                <p>SmartyMcSmartyPants July 1910</p>
+                <p>SmartyMcSmartyPants July 20 1910</p>
                 <p>This is totally a pugantula. They are native to North America and hunt wolves and deer. They form herds and take down humans as a last resort due to humans overhunting their primary prey sources. I would stay away from that park if I were you. Here's a photo of one trying to take down a human on its own.</p>
                 <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' />
-                <Button>Upvote</Button>
+                <Button isExpanded>Upvote</Button>
+              </div>
+              <div key='124' className='answerDiv'>
+                <h4>It's a common black house spider</h4>
+                <p>PantsonFire July 21 1910</p>
+                <p>SmartyMcSmartyPants is totally off. Pugantulas are a fawn color and this species is black. It is clearly a common house spider. I've attached a photo for reference.</p>
+                <img src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' />
+                <Button isExpanded>Upvote</Button>
               </div>
 
               // {/* <div clasName='answerDisplayDiv'>

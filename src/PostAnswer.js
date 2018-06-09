@@ -5,17 +5,17 @@ import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
-import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
+import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
 import './foundation.css'
 
 class PostAnswer extends Component {
   constructor (props) {
     super()
     this.state = {
-      questionId: this.props.questionId,
-      userId: '',
-      title: '',
-      content: '',
+      // questionId: this.props.questionId,
+      // userId: '',
+      // title: '',
+      // content: '',
       image: 'https://tinyurl.com/yb7ek22r',
       donePosting: false
     }
@@ -92,14 +92,14 @@ class PostAnswer extends Component {
               </div>
             </header>
           </div>
-          <div>
+          <div className='fullCenter'>
             <h2 className='header'>Answer a Question</h2>
             <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
             Title: <input type='text' name='title' onChange={this.handleChange} />
-            Answer: <input type='textarea' name='content' onChange={this.handleChange} />
+            Answer: <input type='textarea' className='content-textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
-              <button className='submitButton' type='submit'>Submit</button>
-              <button className='cancelButton' onClick={this.props.notAddingQuestion}>Cancel</button>
+              <Button className='submitButton' type='submit'>Submit</Button>
+              <Button className='cancelButton' onClick={this.props.notAddingQuestion} isHollow >Cancel</Button>
             </form>
           </div>
         </div>
