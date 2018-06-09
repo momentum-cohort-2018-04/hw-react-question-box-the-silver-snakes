@@ -5,6 +5,7 @@ import request from 'superagent'
 import moment from 'moment'
 // import { BrowserRouter as Router, Route } from 'react-router-dom'
 import PostAnswer from './PostAnswer'
+import EditAnswer from './EditAnswer'
 import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
 
 class IndividualQuestionAndAnswers extends Component {
@@ -13,10 +14,10 @@ class IndividualQuestionAndAnswers extends Component {
     this.state = {
       userId: 4,
       questionId: 42,
-      questionTitle: 'here is the QUESTION',
-      questionContent: 'words go here that belong to the content of the question',
+      questionTitle: 'Spider Identification',
+      questionContent: 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
       questionCreateDate: '05 17 1910',
-      questionImage: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Penguin_shuvuu.jpg',
+      questionImage: 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
       // userId: this.props.user_id,
       // questionId: this.props.id,
       // questionTitle: this.props.title,
@@ -25,11 +26,14 @@ class IndividualQuestionAndAnswers extends Component {
       // questionImage: this.props.image,
       answerArray: [],
       // token: window.localStorage.token,
-      postAnAnswer: false
+      postAnAnswer: false,
+      editAnAnswer: false
     }
     this.postAnAnswerToTrue = this.postAnAnswerToTrue.bind(this)
+    this.editAnAnswerToTrue = this.editAnAnswerToTrue.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
+    this.cancelSubmit = this.cancelSubmit.bind(this)
   }
 
   componentDidUpdate () {
@@ -56,10 +60,23 @@ class IndividualQuestionAndAnswers extends Component {
     this.setState({submitAnAnswer: true})
   }
 
+  editAnAnswerToTrue () {
+    this.setState({editAnAnswer: true})
+  }
+
+  cancelSubmit () {
+    this.setState({postAnAnswer: false})
+  }
+
   render () {
     if (this.state.postAnAnswer) {
       return (
-        <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} />)
+        <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} cancelSubmit={this.cancelSubmit.bind(this)} />)
+    } else if (this.state.editAnAnswer) {
+      return (
+        <EditAnswer />
+        // Above needs what we're passing as props
+      )
     } else {
       return (
         <div>
@@ -87,14 +104,30 @@ class IndividualQuestionAndAnswers extends Component {
             </div>
 
             <div clasName='answerDisplayDiv'>
-              {this.state.answerArray.map((answer, i) => (
-                <div key={answer.id} className='answerDiv'>
-                  <h4>{answer.title}</h4>
-                  <p>{answer.username} {answer.created_at}</p>
-                  <p>{answer.content}</p>
-                  <img src={answer.image} />
-                  <Button>Upvote</Button>
-                </div>
+              <div key='123' className='answerDiv'>
+                <h4>It's a pugantula</h4>
+                <p>SmartyMcSmartyPants July 20 1910</p>
+                <p>This is totally a pugantula. They are native to North America and hunt wolves and deer. They form herds and take down humans as a last resort due to humans overhunting their primary prey sources. I would stay away from that park if I were you. Here's a photo of one trying to take down a human on its own.</p>
+                <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' />
+                <Button isExpanded>Upvote</Button>
+              </div>
+              <div key='124' className='answerDiv'>
+                <h4>It's a common black house spider</h4>
+                <p>PantsonFire July 21 1910</p>
+                <p>SmartyMcSmartyPants is totally off. Pugantulas are a fawn color and this species is black. It is clearly a common house spider. I've attached a photo for reference.</p>
+                <img src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' />
+                <Button isExpanded>Upvote</Button>
+              </div>
+
+              // {/* <div clasName='answerDisplayDiv'>
+              //   {this.state.answerArray.map((answer, i) => (
+              //     <div key={answer.id} className='answerDiv'>
+              //       <h4>{answer.title}</h4>
+              //       <p>{answer.username} {answer.created_at}</p>
+              //       <p>{answer.content}</p>
+              //       <img src={answer.image} />
+              //       <Button>Upvote</Button>
+                  // </div> */}
               )
               )}
             </div>

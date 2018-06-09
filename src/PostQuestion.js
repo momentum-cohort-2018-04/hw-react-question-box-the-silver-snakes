@@ -14,7 +14,8 @@ class PostQuestion extends Component {
       userId: '',
       title: '',
       content: '',
-      image: 'https://tinyurl.com/yb7ek22r'
+      image: 'https://tinyurl.com/yb7ek22r',
+      donePosting: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,8 +38,12 @@ class PostQuestion extends Component {
       .post(`api/v1/questions`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
+      .then((response) => {
+        if (response.status === 201) {
+          this.changePostingStatus()
+        }
+      })
       .end()
-      // Go to view of question
   }
 
   handleChange (event) {
@@ -57,7 +62,15 @@ class PostQuestion extends Component {
     }
   }
 
+  changePostingStatus () {
+    this.setState({donePosting: true})
+  }
+
   render () {
+    if (this.state.donePosting) {
+      return (
+        <IndividualQuestionAndAnswers questionId={this.questionId} />)
+    } else {
     return (
       <div>
         <div>
@@ -78,7 +91,7 @@ class PostQuestion extends Component {
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
             <Button className='submitButton' type='submit'>Submit</Button>
-            <Button className='cancelButton' onClick={this.props.notAddingQuestion} isHollow >Cancel</Button>
+            <Button className='cancelButton' onClick={this.props.cancelSubmit} isHollow >Cancel</Button>
           </form>
         </div>
       </div>
