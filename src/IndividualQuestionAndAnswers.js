@@ -5,6 +5,7 @@ import request from 'superagent'
 import moment from 'moment'
 // import { BrowserRouter as Router, Route } from 'react-router-dom'
 import PostAnswer from './PostAnswer'
+import EditAnswer from './EditAnswer'
 import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
 
 class IndividualQuestionAndAnswers extends Component {
@@ -25,9 +26,11 @@ class IndividualQuestionAndAnswers extends Component {
       // questionImage: this.props.image,
       answerArray: [],
       // token: window.localStorage.token,
-      postAnAnswer: false
+      postAnAnswer: false,
+      editAnAnswer: false
     }
     this.postAnAnswerToTrue = this.postAnAnswerToTrue.bind(this)
+    this.editAnAnswerToTrue = this.editAnAnswerToTrue.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
     this.cancelSubmit = this.cancelSubmit.bind(this)
@@ -57,6 +60,10 @@ class IndividualQuestionAndAnswers extends Component {
     this.setState({submitAnAnswer: true})
   }
 
+  editAnAnswerToTrue () {
+    this.setState({editAnAnswer: true})
+  }
+
   cancelSubmit () {
     this.setState({postAnAnswer: false})
   }
@@ -65,6 +72,11 @@ class IndividualQuestionAndAnswers extends Component {
     if (this.state.postAnAnswer) {
       return (
         <PostAnswer questionTitle={this.state.questionTitle.bind(this)} questionContent={this.state.questionContent.bind(this)} questionImage={this.state.questionImage.bind(this)} cancelSubmit={this.cancelSubmit.bind(this)} />)
+    } else if (this.state.editAnAnswer) {
+      return (
+        <EditAnswer />
+        // Above needs what we're passing as props
+      )
     } else {
       return (
         <div>

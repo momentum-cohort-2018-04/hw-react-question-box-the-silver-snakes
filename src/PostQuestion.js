@@ -14,7 +14,8 @@ class PostQuestion extends Component {
       userId: '',
       title: '',
       content: '',
-      image: 'https://tinyurl.com/yb7ek22r'
+      image: 'https://tinyurl.com/yb7ek22r',
+      donePosting: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,8 +38,12 @@ class PostQuestion extends Component {
       .post(`api/v1/questions`)
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
+      .then((response) => {
+        if (response.status === 201) {
+          this.changePostingStatus()
+        }
+      })
       .end()
-      // Go to view of question
   }
 
   handleChange (event) {
@@ -57,7 +62,15 @@ class PostQuestion extends Component {
     }
   }
 
+  changePostingStatus () {
+    this.setState({donePosting: true})
+  }
+
   render () {
+    if (this.state.donePosting) {
+      return (
+        <IndividualQuestionAndAnswers questionId={this.questionId} />)
+    } else {
     return (
       <div>
         <div>
