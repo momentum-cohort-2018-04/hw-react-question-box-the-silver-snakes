@@ -13,10 +13,10 @@ class IndividualQuestionAndAnswers extends Component {
     this.state = {
       userId: 4,
       questionId: 42,
-      questionTitle: 'here is the QUESTION',
-      questionContent: 'words go here that belong to the content of the question',
+      questionTitle: 'Spider Identification',
+      questionContent: 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
       questionCreateDate: '05 17 1910',
-      questionImage: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Penguin_shuvuu.jpg',
+      questionImage: 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
       // userId: this.props.user_id,
       // questionId: this.props.id,
       // questionTitle: this.props.title,
@@ -87,14 +87,23 @@ class IndividualQuestionAndAnswers extends Component {
             </div>
 
             <div clasName='answerDisplayDiv'>
-              {this.state.answerArray.map((answer, i) => (
-                <div key={answer.id} className='answerDiv'>
-                  <h4>{answer.title}</h4>
-                  <p>{answer.username} {answer.created_at}</p>
-                  <p>{answer.content}</p>
-                  <img src={answer.image} />
-                  <Button>Upvote</Button>
-                </div>
+              <div key='123' className='answerDiv'>
+                <h4>It's a pugantula</h4>
+                <p>SmartyMcSmartyPants July 1910</p>
+                <p>This is totally a pugantula. They are native to North America and hunt wolves and deer. They form herds and take down humans as a last resort due to humans overhunting their primary prey sources. I would stay away from that park if I were you. Here's a photo of one trying to take down a human on its own.</p>
+                <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' />
+                <Button>Upvote</Button>
+              </div>
+
+              // {/* <div clasName='answerDisplayDiv'>
+              //   {this.state.answerArray.map((answer, i) => (
+              //     <div key={answer.id} className='answerDiv'>
+              //       <h4>{answer.title}</h4>
+              //       <p>{answer.username} {answer.created_at}</p>
+              //       <p>{answer.content}</p>
+              //       <img src={answer.image} />
+              //       <Button>Upvote</Button>
+                  // </div> */}
               )
               )}
             </div>
