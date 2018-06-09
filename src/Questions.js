@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 // import request from 'superagent'
-import Foundation, {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
+import {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
 import db from './db'
+import './foundation.css'
 
 class Questions extends Component {
   constructor (props) {
     super()
     this.state = {
-      token: window.localStorage.token,
+      token: window.localStorage.token ? window.localStorage.token : '',
       questions: db
     }
   }
@@ -28,29 +29,36 @@ class Questions extends Component {
   //       }
   //     })
   //     .catch((error) => {
-  //       console.log(error.status)
+  //       console.log('get Questions error', error.status)
   //     })
   }
 
   render () {
     console.log(this.state.questions)
-    const fuck = this.state.questions.map((entry, index) => {
-      const id = entry.id
+    const questionList = this.state.questions.map((entry, index) => {
+      const id = entry.user_id
       const title = entry.title
       const content = entry.content
-      const image = entry.images
+      const image = entry.image
       const user = entry.user
+      let shortForm
+      let long
+      if (content.length > 300) {
+        long = true
+        shortForm = content.slice(0, 300)
+      } else { long = false }
       // console.log(id, title, content, image, user)
       return (
-        <div className='media-object-stack-example' key={index} id={id}>
+        <div className='question-each red' key={index} id={id}>
           <MediaObject stackForSmall>
             <MediaObjectSection isMiddle>
-              {image && <Thumbnail src={image} className='better' />}
+              {image && <Thumbnail className='question-preview-img' src={image} />}
             </MediaObjectSection>
-            <MediaObjectSection isMain>
-              <h3>{title}</h3>
-              <h5>User Number {user}</h5>
-              <p>{content}</p>
+            <MediaObjectSection isMiddle>
+              <h5 className='question-title'>{title}</h5>
+              <p className='text-right question-info'><small>asked by user</small> Number {user}</p>
+              {long && <p className='question-content'>{shortForm} ...</p>}
+              {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
           </MediaObject>
         </div>)
@@ -58,8 +66,11 @@ class Questions extends Component {
     return (
       <div className='main'>
         <div className='title'><h1>Free For All~</h1></div>
-        <div className='button'>Add Question goes here</div>
-        {fuck}
+        <div className='text-center'>
+          {this.state.token && <button className='button'>Add Question</button>}
+          {/* Button will be a link eventually properly */}
+          {!this.state.token && 'Login to be able to ask Questions'}</div>
+        <div className='questionsAll'>{questionList}</div>
       </div>
     )
   }
