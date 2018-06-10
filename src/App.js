@@ -4,7 +4,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
 
-import SitePortal from './SitePortal'
+// import SitePortal from './SitePortal'
 import Questions from './Questions'
 import UserQuestions from './UserQuestions'
 import LastQuestion from './LastQuestion'
@@ -42,8 +42,8 @@ class App extends Component {
             </div>
           </header>
 
-          <Route exact path='/' render={() => <Questions />} />
-          <Route exact path='/portal' render={() => <SitePortal />} />
+          <Route path='/' render={() => <Questions />} />
+          {/* <Route path='/portal' render={() => <SitePortal />} /> */}
           <Route path='/questions/last' render={() => <LastQuestion questionid='1' />} />
           <Route path='/user/questions' render={() => <UserQuestions userid='1' />} />
 

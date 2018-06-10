@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import './App.css'
 import request from 'superagent'
 // import moment from 'moment'
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
-import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
+import { BrowserRouter as Link } from 'react-router-dom'
+import {Button} from 'react-foundation'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 class PostQuestion extends Component {
@@ -41,10 +41,10 @@ class PostQuestion extends Component {
       .send(body)
       .then((response) => {
         if (response.status === 201) {
-          this.changePostingStatus()
+          console.log('posted')
+          this.props.history.push('/')
         }
       })
-      .end()
   }
 
   handleChange (event) {
@@ -63,10 +63,6 @@ class PostQuestion extends Component {
     }
   }
 
-  changePostingStatus () {
-    this.setState({donePosting: true})
-  }
-
   render () {
     if (this.state.donePosting) {
       return (
@@ -74,17 +70,6 @@ class PostQuestion extends Component {
     } else {
       return (
         <div>
-          <div>
-            <header>
-              <Breadcrumbs className='nav'>
-                <BreadcrumbItem><a href='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></a></BreadcrumbItem>
-                {/* <BreadcrumbItem><a href='/'><img className='nav_img' src='./images/whatisit.png' /></a></BreadcrumbItem> */}
-                <BreadcrumbItem className='nav-center'><a href='/user/id'>My Questions</a></BreadcrumbItem>
-                <BreadcrumbItem className='nav-center'><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
-                <BreadcrumbItem className='nav-center'><a href='/??'>Logout</a></BreadcrumbItem>
-              </Breadcrumbs>
-            </header>
-          </div>
           <div className='fullcenter'>
             <h2 className='header'>Post a Question</h2>
             <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
@@ -92,7 +77,7 @@ class PostQuestion extends Component {
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
               <Button className='submitButton' type='submit'>Submit</Button>
-              <Button className='cancelButton' onClick={this.props.cancelSubmit} isHollow >Cancel</Button>
+              <Link to='/'><Button className='cancelButton' type='button' isHollow onClick={this.props.history.goBack}>Cancel</Button></Link>
             </form>
           </div>
         </div>
