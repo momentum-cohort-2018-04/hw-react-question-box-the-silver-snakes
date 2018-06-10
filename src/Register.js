@@ -52,7 +52,7 @@ class Register extends Component {
   render () {
     return (
       <div className='fullcenter'>
-        <div className='title'><h1>Register Here</h1></div>
+        <div className='title'><h1>Register</h1></div>
         <form onSubmit={this.attemptLogin}>
           <label>Username</label>
           <input type='text' name='username' placeholder='create your username' onChange={(event) => this.handleChange(event)} />
