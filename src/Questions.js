@@ -4,6 +4,7 @@ import {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
 import moment from 'moment'
 import db from './db'
 import './foundation.css'
+import './App.css'
 
 class Questions extends Component {
   constructor (props) {
@@ -28,7 +29,6 @@ class Questions extends Component {
     this.setState({question: db})
     // request
   //     .get('api/v1/questions')
-  //     .set('Authorization', 'Bearer ' + this.state.token)
   //     .then((response) => {
   //       if (response.status === 200) {
   //         // this.setState({questions: response.questions})
@@ -65,8 +65,8 @@ class Questions extends Component {
             </MediaObjectSection>
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
-              <p className='text-left question-info'>Created {created} <small>Last updated: {updated}</small></p>
-              <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p>
+              <p className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
+              {/* <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p> */}
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
@@ -75,12 +75,12 @@ class Questions extends Component {
     })
     return (
       <div className='main'>
-        <div className='title'><h1>Free For All~</h1></div>
+        <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
         <div className='text-center'>
           {this.state.token && <button className='button'>Add Question</button>}
           {/* Button will be a link eventually properly */}
           {/* Need to pass cancelSubmit as function with link */}
-          {!this.state.token && 'Login to be able to ask Questions'}</div>
+          {!this.state.token && 'Login to ask and answer questions'}</div>
         <div className='questionsAll'>{questionList}</div>
       </div>
     )

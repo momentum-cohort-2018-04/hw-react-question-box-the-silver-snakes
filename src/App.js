@@ -29,7 +29,9 @@ class App extends Component {
                 <Breadcrumbs>
                   <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></Link></BreadcrumbItem>
                   {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
+                  {!this.state.token &&
                   <BreadcrumbItem className='nav-center'><Link to='/portal'>Login/Register</Link></BreadcrumbItem>
+                  }
                   {this.state.token &&
                     <div>
                       <BreadcrumbItem className='nav-center'><Link to='/user/questions'>My Questions</Link></BreadcrumbItem>

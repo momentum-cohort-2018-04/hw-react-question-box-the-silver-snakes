@@ -4,6 +4,7 @@ import {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
 import moment from 'moment'
 import db from './db'
 import './foundation.css'
+import './App.css'
 
 class UserQuestions extends Component {
   constructor (props) {
@@ -58,7 +59,8 @@ class UserQuestions extends Component {
             </MediaObjectSection>
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
-              <p className='text-left question-info'>Created {created} <small>Last updated: {updated}</small></p>
+              <p className='text-left question-info'>Posted on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
+              {/* <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p> */}
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
