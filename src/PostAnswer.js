@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 import request from 'superagent'
-import moment from 'moment'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+// import moment from 'moment'
+// import { BrowserRouter as Router, Route } from 'react-router-dom'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
@@ -83,7 +83,8 @@ class PostAnswer extends Component {
               <div className='breadcrumbs-example'>
                 <nav aria-label='You are here:' role='navigation'>
                   <Breadcrumbs>
-                    <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem>
+                    <BreadcrumbItem><a href='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></a></BreadcrumbItem>
+                    {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
                     <BreadcrumbItem><a href='/user/id'>My Questions</a></BreadcrumbItem>
                     <BreadcrumbItem><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
                     <BreadcrumbItem><a href='/??'>Logout</a></BreadcrumbItem>
@@ -92,7 +93,7 @@ class PostAnswer extends Component {
               </div>
             </header>
           </div>
-          <div className='fullCenter'>
+          <div className='fullcenter'>
             <h2 className='header'>Answer a Question</h2>
             <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
             Title: <input type='text' name='title' onChange={this.handleChange} />

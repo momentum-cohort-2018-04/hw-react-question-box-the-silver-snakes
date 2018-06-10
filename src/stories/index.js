@@ -12,6 +12,8 @@ import IndividualQuestionAndAnswers from '../IndividualQuestionAndAnswers'
 import PostAnswer from '../PostAnswer'
 import Login from '../Login'
 import Register from '../Register'
+// import LastQuestion from './LastQuestion'
+// import UserQuestions from './UserQuestions'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
@@ -42,3 +44,9 @@ storiesOf('BaseLogin', module)
 
 storiesOf('Register', module)
   .add('simpleRender', () => <Register />)
+
+// storiesOf('LastQuestion', module)
+//   .add('simpleRender', () => <LastQuestion questionid='1' />)
+
+// storiesOf('UserQuestions', module)
+//   .add('simpleRender', () => <UserQuestions userid='1' />)

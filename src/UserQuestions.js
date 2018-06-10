@@ -5,13 +5,14 @@ import moment from 'moment'
 import db from './db'
 import './foundation.css'
 
-class Questions extends Component {
+class UserQuestions extends Component {
   constructor (props) {
-    super()
+    super(props)
+    console.log(this.props)
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
       questions: db,
-      cancelSubmit: false
+      id: this.props.userid
     }
   }
 
@@ -19,36 +20,29 @@ class Questions extends Component {
     this.getQuestions()
   }
 
-  cancelSubmit () {
-    this.setState({cancelSubmit: true})
-  }
-  // Need to link above function to "PostQuesion"
-
   getQuestions () {
     this.setState({question: db})
     // request
-  //     .get('api/v1/questions')
-  //     .set('Authorization', 'Bearer ' + this.state.token)
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         // this.setState({questions: response.questions})
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log('get Questions error', error.status)
-  //     })
+    //   .get(`localhost:3000/api/v1/users/${this.state.id}`)
+    //   .set('Authorization', 'Bearer ' + this.state.token)
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       // this.setState({questions: response.questions})
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log('get Questions error', error.status)
+    //   })
   }
 
   render () {
     console.log(this.state.questions)
     const questionList = this.state.questions.map((entry, index) => {
-      const userid = entry.userID
       const updated = moment(entry.updated_at).fromNow()
       const created = moment(entry.created_at).format('MMM Do YYYY')
       const title = entry.title
       const content = entry.content
       const image = entry.image
-      const user = entry.userName
       const id = entry.id
       let shortForm
       let long
@@ -56,7 +50,6 @@ class Questions extends Component {
         long = true
         shortForm = content.slice(0, 300)
       } else { long = false }
-      // console.log(id, title, content, image, user)
       return (
         <div className='question-each' key={index} id={id}>
           <MediaObject stackForSmall>
@@ -66,7 +59,6 @@ class Questions extends Component {
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
               <p className='text-left question-info'>Created {created} <small>Last updated: {updated}</small></p>
-              <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p>
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
@@ -75,16 +67,13 @@ class Questions extends Component {
     })
     return (
       <div className='main'>
-        <div className='title'><h1>Free For All~</h1></div>
+        <div className='title'><h1>Your Questions</h1></div>
         <div className='text-center'>
-          {this.state.token && <button className='button'>Add Question</button>}
-          {/* Button will be a link eventually properly */}
-          {/* Need to pass cancelSubmit as function with link */}
-          {!this.state.token && 'Login to be able to ask Questions'}</div>
-        <div className='questionsAll'>{questionList}</div>
+          <div className='questionsAll'>{questionList}</div>
+        </div>
       </div>
     )
   }
 }
 
-export default Questions
+export default UserQuestions
