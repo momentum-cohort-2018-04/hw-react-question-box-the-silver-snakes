@@ -1,35 +1,31 @@
 import React, {Component} from 'react'
 // import request from 'superagent'
-import {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
+import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
+import { BrowserRouter as Switch, Route, Link } from 'react-router-dom'
 import moment from 'moment'
 import db from './db'
+
 import './foundation.css'
 import './App.css'
+import PostQuestion from './PostQuestion'
 
 class Questions extends Component {
   constructor (props) {
     super()
     this.state = {
-      token: window.localStorage.token ? window.localStorage.token : '',
+      token: window.localStorage.token ? window.localStorage.token : 'm',
       questions: db,
       cancelSubmit: false
     }
+    // this.getQuestions()
   }
-
-  componentDidMount () {
-    this.getQuestions()
-  }
-
-  cancelSubmit () {
-    this.setState({cancelSubmit: true})
-  }
-  // Need to link above function to "PostQuesion"
 
   getQuestions () {
     this.setState({question: db})
     // request
-  //     .get('api/v1/questions')
+  //     .get('localhost:3000/api/v1/questions')
   //     .then((response) => {
+  //       console.log('first response', response)
   //       if (response.status === 200) {
   //         // this.setState({questions: response.questions})
   //       }
@@ -40,7 +36,6 @@ class Questions extends Component {
   }
 
   render () {
-    console.log(this.state.questions)
     const questionList = this.state.questions.map((entry, index) => {
       const userid = entry.userID
       const updated = moment(entry.updated_at).fromNow()
@@ -56,7 +51,6 @@ class Questions extends Component {
         long = true
         shortForm = content.slice(0, 300)
       } else { long = false }
-      // console.log(id, title, content, image, user)
       return (
         <div className='question-each' key={index} id={id}>
           <MediaObject stackForSmall>
@@ -74,13 +68,18 @@ class Questions extends Component {
     })
     return (
       <div className='main'>
-        <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
-        <div className='text-center'>
-          {this.state.token && <button className='button'>Add Question</button>}
-          {/* Button will be a link eventually properly */}
-          {/* Need to pass cancelSubmit as function with link */}
-          {!this.state.token && 'Login to ask and answer questions'}</div>
-        <div className='questionsAll'>{questionList}</div>
+
+        <Route exact path='/' render={() =>
+
+          <React.Fragment>
+            <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
+            <div className='text-center'>
+              {this.state.token && <Link to='/add'><Button className='button'>Add Question</Button></Link>}
+              {!this.state.token && 'Login to ask and answer questions'}</div>
+            <div className='questionsAll'>{questionList}</div>
+          </React.Fragment>
+        } />
+        <Route path='/add' render={({history}) => <PostQuestion history={history} />} />
       </div>
     )
   }
