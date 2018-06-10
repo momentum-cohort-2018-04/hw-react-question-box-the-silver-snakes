@@ -61,6 +61,11 @@ h1, h2, h3, h4, h5 {
   width: 40px;
   /* background-color: black; */
 }
+
+.register-button {
+  color: blue;
+  cursor: pointer;
+}
 /*+++++++++++++++++++++++++++WALL O QUESTIONS++++++++++++++++++++++++++++++++++++*/
 .question-preview-img {
   /* height: 3rem; */

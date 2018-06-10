@@ -66,7 +66,6 @@ class Questions extends Component {
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
               <p className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
-              {/* <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p> */}
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>

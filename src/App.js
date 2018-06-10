@@ -4,7 +4,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
 
-import SitePortal from './SitePortal'
+import Login from './Login'
 import Questions from './Questions'
 import UserQuestions from './UserQuestions'
 import LastQuestion from './LastQuestion'
@@ -15,7 +15,7 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      token: window.localStorage.token ? window.localStorage.token : 's',
+      token: window.localStorage.token ? window.localStorage.token : '',
       last: window.localStorage.last ? window.localStorage.last : ''
     }
   }
@@ -30,7 +30,7 @@ class App extends Component {
                   <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></Link></BreadcrumbItem>
                   {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
                   {!this.state.token &&
-                  <BreadcrumbItem className='nav-center'><Link to='/portal'>Login/Register</Link></BreadcrumbItem>
+                  <BreadcrumbItem className='nav-center'><Link to='/login'>Login/Register</Link></BreadcrumbItem>
                   }
                   {this.state.token &&
                     <div>
@@ -45,7 +45,7 @@ class App extends Component {
           </header>
 
           <Route exact path='/' render={() => <Questions />} />
-          <Route exact path='/portal' render={() => <SitePortal />} />
+          <Route exact path='/login' render={() => <Login />} />
           <Route path='/questions/last' render={() => <LastQuestion questionid='1' />} />
           <Route path='/user/questions' render={() => <UserQuestions userid='1' />} />
 
