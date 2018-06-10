@@ -15,7 +15,7 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      token: window.localStorage.token ? window.localStorage.token : '',
+      token: window.localStorage.token ? window.localStorage.token : 's',
       last: window.localStorage.last ? window.localStorage.last : ''
     }
   }

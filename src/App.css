@@ -102,6 +102,13 @@ h1, h2, h3, h4, h5 {
   margin: 1rem 0 0 1rem;
 }
 
+/*+++++++++++++++++++++++++++INDIVIDUAL QUESTION ANSWER DISPLAYS++++++++++++++++++++++++++++++++++++*/
+
+.question-image {
+  margin: 15px 0;
+}
+
+
 /*====================== markup just for studying================================*/
 .red{
   border: red solid 2px;

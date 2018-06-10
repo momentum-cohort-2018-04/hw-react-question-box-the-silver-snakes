@@ -117,7 +117,7 @@ class IndividualQuestionAndAnswers extends Component {
                 <h4>It's a common black house spider</h4>
                 <p>PantsonFire July 21 1910</p>
                 <p>SmartyMcSmartyPants is totally off. Pugantulas are a fawn color and this species is black. It is clearly a common house spider. I've attached a photo for reference.</p>
-                <img src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' />
+                <img className='question-image' src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' />
                 <Button isExpanded>Upvote</Button>
               </div>
 
@@ -127,7 +127,7 @@ class IndividualQuestionAndAnswers extends Component {
               //       <h4>{answer.title}</h4>
               //       <p>{answer.username} {answer.created_at}</p>
               //       <p>{answer.content}</p>
-              //       <img src={answer.image} />
+              //       <img className='question-image' src={answer.image} />
               //       <Button>Upvote</Button>
               // </div> */}
               )
