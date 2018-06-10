@@ -48,7 +48,7 @@ class LastQuestion extends Component {
 
   componentDidUpdate () {
     this.getAnswerArray()
-    this.transformDate()
+    // this.transformDate()
   }
 
   transformDate () {
@@ -95,20 +95,20 @@ class LastQuestion extends Component {
               <h2 className='header'>{this.state.entry.title}</h2>
               <p>Created on {this.state.entry.created_at}</p>
               <p>{this.state.entry.content}</p>
-              <img src={this.state.entry.image} />
+              <img className='question-image' src={this.state.entry.image} />
 
               <div className='answerButtonDiv'>
                 <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
               </div>
             </div>
-            <div clasName='answerDisplayDiv'>
+            <div className='answerDisplayDiv'>
               {this.state.answerArray.map((answer) => (
                 <div key={answer.id} className='answerDiv'>
                   <h4>{answer.title}</h4>
                   <p>{answer.username} {answer.created_at}</p>
                   <p>{answer.content}</p>
-                  <img src={answer.image} />
-                  <Button>Upvote</Button>
+                  <img className='question-image' src={answer.image} />
+                  <Button isExpanded>Upvote</Button>
                 </div>
               )
               )}

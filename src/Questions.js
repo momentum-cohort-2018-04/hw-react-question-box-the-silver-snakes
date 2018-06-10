@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import request from 'superagent'
+// import request from 'superagent'
 import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
 import { BrowserRouter as Switch, Route, Link } from 'react-router-dom'
 import moment from 'moment'
 import db from './db'
 
 import './foundation.css'
+import './App.css'
 import PostQuestion from './PostQuestion'
 
 class Questions extends Component {
@@ -20,19 +21,18 @@ class Questions extends Component {
   }
 
   getQuestions () {
-    request
-      .get('localhost:3000/api/v1/questions')
-      .then((response) => {
-        console.log('first response', response)
-        if (response.status === 200) {
-          console.log(response)
-          this.setState({questions: response.questions})
-          console.log(response.questions)
-        }
-      })
-      .catch((error) => {
-        console.log('get Questions error', error.status)
-      })
+    this.setState({question: db})
+    // request
+  //     .get('localhost:3000/api/v1/questions')
+  //     .then((response) => {
+  //       console.log('first response', response)
+  //       if (response.status === 200) {
+  //         // this.setState({questions: response.questions})
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log('get Questions error', error.status)
+  //     })
   }
 
   render () {
@@ -59,8 +59,7 @@ class Questions extends Component {
             </MediaObjectSection>
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
-              <p className='text-left question-info'>Created {created} <small>Last updated: {updated}</small></p>
-              <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p>
+              <p className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
@@ -73,10 +72,10 @@ class Questions extends Component {
         <Route exact path='/' render={() =>
 
           <React.Fragment>
-            <div className='title'><h1>Free For All~</h1></div>
+            <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
             <div className='text-center'>
               {this.state.token && <Link to='/add'><Button className='button'>Add Question</Button></Link>}
-              {!this.state.token && 'Login to be able to ask Questions'}</div>
+              {!this.state.token && 'Login to ask and answer questions'}</div>
             <div className='questionsAll'>{questionList}</div>
           </React.Fragment>
         } />
