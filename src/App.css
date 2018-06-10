@@ -43,6 +43,11 @@
 .question-preview-img {
   /* height: 3rem; */
   width: 30vw;
+  max-height: 20rem;
+  /* object-fit: scale-down; */
+  object-fit: cover;
+  object-position: 50% 50%;
+  
 }
 .questionsAll{
   max-width: 80%;

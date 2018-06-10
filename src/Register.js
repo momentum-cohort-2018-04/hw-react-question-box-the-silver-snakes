@@ -35,9 +35,15 @@ class Register extends Component {
           'password': this.state.password
         })
         .then((response) => {
-          window.localStorage.token = response
-          this.setState({token: response})
-          this.setState({registrationFail: false})
+          if (response.status === 201) {
+            window.localStorage.token = response
+            this.setState({token: response})
+            this.setState({registrationFail: false})
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log(error.status)
         })
     } else {
       this.setState({registrationFail: true})

@@ -8,22 +8,23 @@ import PostAnswer from './PostAnswer'
 import EditAnswer from './EditAnswer'
 import {Breadcrumbs, BreadcrumbItem, Button} from 'react-foundation'
 
+const spiderpug = {
+  'id': 42,
+  'title': 'Spider Identification',
+  'content': 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
+  'created_at': '2018-06-09T01:34:41.300Z',
+  'updated_at': '2018-06-09T01:34:41.300Z',
+  'image': 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
+  'user_id': 4
+}
+
 class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
     super()
     this.state = {
-      userId: 4,
-      questionId: 42,
-      questionTitle: 'Spider Identification',
-      questionContent: 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
-      questionCreateDate: '05 17 1910',
-      questionImage: 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
-      // userId: this.props.user_id,
-      // questionId: this.props.id,
-      // questionTitle: this.props.title,
-      // questionContent: this.props.content,
-      // questionCreateDate: this.props.created_at,
-      // questionImage: this.props.image,
+      // userId: 4, ????
+      // entry: this.props.entry,
+      entry: spiderpug,
       answerArray: [],
       // token: window.localStorage.token,
       postAnAnswer: false,
@@ -86,6 +87,7 @@ class IndividualQuestionAndAnswers extends Component {
                 <BreadcrumbItem><a href='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></a></BreadcrumbItem>
                 {/* <BreadcrumbItem><a href='/'><img className='nav_img' src='./images/whatisit.png' /></a></BreadcrumbItem> */}
                 <BreadcrumbItem className='nav-center'><a href='/user/id'>My Questions</a></BreadcrumbItem>
+                {/* ^^^ pass userid by this.state.entry.user_id */}
                 <BreadcrumbItem className='nav-center'><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
                 <BreadcrumbItem className='nav-center'><a href='/??'>Logout</a></BreadcrumbItem>
               </Breadcrumbs>
@@ -93,10 +95,10 @@ class IndividualQuestionAndAnswers extends Component {
           </div>
           <div className='hcenter'>
             <div className='questionDisplayDiv'>
-              <h2 className='header'>{this.state.questionTitle}</h2>
-              <p>Created on {this.state.questionCreateDate}</p>
-              <p>{this.state.questionContent}</p>
-              <img src={this.state.questionImage} />
+              <h2 className='header'>{this.state.entry.title}</h2>
+              <p>Created on {this.state.entry.created_at}</p>
+              <p>{this.state.entry.content}</p>
+              <img src={this.state.entry.image} />
 
               <div className='answerButtonDiv'>
                 <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
@@ -119,15 +121,15 @@ class IndividualQuestionAndAnswers extends Component {
                 <Button isExpanded>Upvote</Button>
               </div>
 
-              // {/* <div clasName='answerDisplayDiv'>
-              //   {this.state.answerArray.map((answer, i) => (
+              {/* <div clasName='answerDisplayDiv'>
+              {this.state.answerArray.map((answer, i) => (
               //     <div key={answer.id} className='answerDiv'>
               //       <h4>{answer.title}</h4>
               //       <p>{answer.username} {answer.created_at}</p>
               //       <p>{answer.content}</p>
               //       <img src={answer.image} />
               //       <Button>Upvote</Button>
-                  // </div> */}
+              // </div> */}
               )
               )}
             </div>
