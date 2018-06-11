@@ -40,7 +40,7 @@ class LastQuestion extends Component {
       editAnAnswer: false
     }
     this.postAnAnswerToTrue = this.postAnAnswerToTrue.bind(this)
-    this.editAnAnswerToTrue = this.editAnAnswerToTrue.bind(this)
+    // this.editAnAnswerToTrue = this.editAnAnswerToTrue.bind(this)
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
     this.cancelSubmit = this.cancelSubmit.bind(this)
@@ -70,9 +70,9 @@ class LastQuestion extends Component {
     this.setState({submitAnAnswer: true})
   }
 
-  editAnAnswerToTrue () {
-    this.setState({editAnAnswer: true})
-  }
+  // editAnAnswerToTrue () {
+  //   this.setState({editAnAnswer: true})
+  // }
 
   cancelSubmit () {
     this.setState({postAnAnswer: false})
@@ -92,23 +92,25 @@ class LastQuestion extends Component {
         <div>
           <div className='hcenter'>
             <div className='questionDisplayDiv'>
-              <h2 className='header'>{this.state.entry.title}</h2>
-              <p>Created on {this.state.entry.created_at}</p>
-              <p>{this.state.entry.content}</p>
+              <h2 className='question-title-header'>{this.state.entry.title}</h2>
+              <p className='question-info-main'>Created on {this.state.entry.created_at}</p>
+              <p className='question-content-main'>{this.state.entry.content}</p>
               <img className='question-image' src={this.state.entry.image} alt='unknown' />
+              <Button className='edit-question-button'>Edit Question</Button>
 
               <div className='answerButtonDiv'>
-                <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
+                {/* <Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button> */}
               </div>
             </div>
             <div className='answerDisplayDiv'>
               {this.state.answerArray.map((answer) => (
                 <div key={answer.id} className='answerDiv'>
-                  <h4>{answer.title}</h4>
-                  <p>{answer.username} {answer.created_at}</p>
-                  <p>{answer.content}</p>
+                  <hr />
+                  <h4 className='answer-title-header'>{answer.title}</h4>
+                  <p className='answer-info-main'>{answer.username} {answer.created_at}</p>
+                  <p className='answer-contenet-main'>{answer.content}</p>
                   <img className='question-image' src={answer.image} alt='visual identification' />
-                  <Button isExpanded>Upvote</Button>
+                  <Button className='verify-button'>Verify This Answer</Button>
                 </div>
               )
               )}
