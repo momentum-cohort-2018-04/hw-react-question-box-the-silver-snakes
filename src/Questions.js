@@ -7,11 +7,6 @@ import apiUrl from './apiUrl'
 
 import './foundation.css'
 import './App.css'
-import PostQuestion from './PostQuestion'
-import PostAnswer from './PostAnswer'
-import EditAnswer from './EditAnswer'
-import EditQuestion from './EditQuestion'
-import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 class Questions extends Component {
   constructor (props) {
@@ -26,9 +21,9 @@ class Questions extends Component {
   }
   getQuestions () {
     request
-      .get(apiUrl('api/v1/questions'))
+      .get(apiUrl('/api/v1/questions'))
       .then((response) => {
-        console.log('first response', response)
+        // console.log('first response', response)
         if (response.status === 200) {
           this.setState({questions: response.body.questions})
         }
@@ -77,25 +72,13 @@ class Questions extends Component {
         </div>)
     })
     return (
-      <Router>
-        <div className='main'>
-
-          <Route exact path='/' render={() =>
-            <React.Fragment>
-              <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
-              <div className='text-center'>
-                {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
-                {!this.state.token && 'Login to ask and answer questions'}</div>
-              <div className='questionsAll'>{questionList}</div>
-            </React.Fragment>
-          } />
-          <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
-          <Route exact path='/questions/:id' render={(props) => <IndividualQuestionAndAnswers {...props} questions={this.state.questions} />} />
-          <Route path='/questions/:id/edit' render={(props) => <EditQuestion {...props} questions={this.state.questions} />} />
-          <Route path='/questions/:id/answers/:id/edit' render={(props) => <EditAnswer {...props} questions={this.state.questions} />} />
-          <Route path='/questions/:id/answers/add' render={(props) => <PostAnswer {...props} questions={this.state.questions} />} />
-        </div>
-      </Router>
+      <div className='main'>
+        <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
+        <div className='text-center'>
+          {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
+          {!this.state.token && 'Login to ask and answer questions'}</div>
+        <div className='questionsAll'>{questionList}</div>
+      </div>
     )
   }
 }

@@ -7,7 +7,12 @@ import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
 import Login from './Login'
 import Questions from './Questions'
 import UserQuestions from './UserQuestions'
-import LastQuestion from './LastQuestion'
+// import LastQuestion from './LastQuestion'
+import PostQuestion from './PostQuestion'
+import PostAnswer from './PostAnswer'
+import EditAnswer from './EditAnswer'
+import EditQuestion from './EditQuestion'
+import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 import Register from './Register'
 
 // import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
@@ -54,7 +59,12 @@ class App extends Component {
           <Route exact path='/login' render={({history}) => <Login history={history} update={this.updateApp} />} />
           {/* <Route exact path='/last' render={() => <LastQuestion questionid='1' />} /> */}
           <Route exact path='/user' render={() => <UserQuestions />} />
-          <Route path='/' render={() => <Questions />} />
+          <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
+          <Route exact path='/questions/:id' render={(props) => <IndividualQuestionAndAnswers {...props} />} />
+          <Route exact path='/questions/:id/edit' render={(props) => <EditQuestion {...props} />} />
+          <Route exact path='/questions/:id/answers/:id/edit' render={(props) => <EditAnswer {...props} />} />
+          <Route exact path='/questions/:id/answers/add' render={(props) => <PostAnswer {...props} />} />
+          <Route exact path='/' render={() => <Questions />} />
         </div>
       </Router>
     )

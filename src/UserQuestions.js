@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import request from 'superagent'
-import {MediaObject, MediaObjectSection, Thumbnail} from 'react-foundation'
+import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import apiUrl from './apiUrl'
 
@@ -73,12 +74,11 @@ class UserQuestions extends Component {
               {/* <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p> */}
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
+              <Link to={`/questions/${id}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>
             </MediaObjectSection>
           </MediaObject>
         </div>)
     })
-    console.log(final)
-    console.log(this.state.questions)
     return final
   }
 
