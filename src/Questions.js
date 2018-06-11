@@ -15,7 +15,7 @@ class Questions extends Component {
   constructor (props) {
     super()
     this.state = {
-      token: window.localStorage.token ? window.localStorage.token : 'm',
+      token: window.localStorage.token ? window.localStorage.token : '',
       questions: db
       // questions: dbAll.questions,
       // cancelSubmit: false
@@ -87,7 +87,7 @@ class Questions extends Component {
             </React.Fragment>
           } />
           <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
-          <Route exact path='/questions/' render={({history}) => <IndividualQuestionAndAnswers history={history} questions={this.state.questions} />} />
+          <Route path='/questions/' render={(props) => <IndividualQuestionAndAnswers {...props} questions={this.state.questions} />} />
         </div>
       </Router>
     )

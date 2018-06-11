@@ -8,40 +8,40 @@ import PostAnswer from './PostAnswer'
 import EditAnswer from './EditAnswer'
 import EditQuestion from './EditQuestion'
 import {Button} from 'react-foundation'
-import dbA from './dbA'
+// import dbA from './dbA'
 
-const spiderpug = {
-  'id': 42,
-  'title': 'Spider Identification',
-  'content': 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
-  'created_at': '2018-06-09T01:34:41.300Z',
-  'updated_at': '2018-06-09T01:34:41.300Z',
-  'image': 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
-  'user_id': 4
-}
+// const spiderpug = {
+//   'id': 42,
+//   'title': 'Spider Identification',
+//   'content': 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
+//   'created_at': '2018-06-09T01:34:41.300Z',
+//   'updated_at': '2018-06-09T01:34:41.300Z',
+//   'image': 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
+//   'user_id': 4
+// }
 
 class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questions: this.props.questions,
-      questionId: this.props.history.location.pathname.split('/')[2],
+      // questions: this.props.questions,
+      // questionId: this.props.history.location.pathname.split('/')[2],
       userId: window.localStorage.user ? window.localStorage.user : '2',
       // question: this.props.entry,
-      // entry: '',
-      entry: spiderpug,
-      answerArray: dbA,
+      entry: this.props.questions.filter(entry => entry.questionID === this.props.match.params.id),
+      // entry: spiderpug,
+      // answerArray: dbA,
       // token: window.localStorage.token,
       postAnAnswer: false,
       editAnAnswer: false
     }
-    this.selectQuestionEntry()
+    // this.selectQuestionEntry()
     this.getAnswerArray = this.getAnswerArray.bind(this)
     this.transformDate = this.transformDate.bind(this)
   }
 
   selectQuestionEntry () {
-    const newArray = this.state.questions.filter(entry => entry.questionID === this.state.questionId)
+    const newArray = this.props.questions.filter(entry => entry.questionID === this.props.match.params.id)
     this.setState({entry: newArray})
   }
   componentDidUpdate () {
@@ -71,7 +71,7 @@ class IndividualQuestionAndAnswers extends Component {
           <Route exact path='/post/answer' render={({history}) => <PostAnswer history={history} questionTitle={this.state.entry.title} questionContent={this.state.entry.content} questionImage={this.state.entry.image} cancelSubmit={this.cancelSubmit.bind(this)} />} />
           <Route exact path='/edit/answer' render={({history}) => <EditAnswer history={history} />} />
           <Route exact path='/edit/question' render={({history}) => <EditQuestion history={history} />} />
-          <Route exact path={`/question/${this.state.questionId}`} render={({history}) =>
+          <Route path='/question/:id' render={({history}) =>
             <React.Fragment>
               <div>
                 <div className='hcenter'>
