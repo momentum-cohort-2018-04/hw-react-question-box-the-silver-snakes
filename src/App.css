@@ -7,6 +7,7 @@
 body {
   margin-top: 20px;
   margin-left: 30px;
+  min-width: 400px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -17,7 +18,7 @@ h1, h2, h3, h4, h5 {
 .title h1 {
   text-align: center;
   font-size: 50px;
-  margin: 0;
+  margin-bottom: 40px;
   padding: 0;
 }
 
@@ -67,6 +68,18 @@ h1, h2, h3, h4, h5 {
   cursor: pointer;
 }
 /*+++++++++++++++++++++++++++WALL O QUESTIONS++++++++++++++++++++++++++++++++++++*/
+.ask-button, .verify-button, .edit-question-button {
+  font-weight: 700;
+  background-color: black;
+  opacity: 0.8;
+}
+
+.ask-button:hover, .verify-button:hover {
+  background-color: black;
+  opacity: 1;
+  color: white;
+}
+
 .question-preview-img {
   /* height: 3rem; */
   width: 30vw;
@@ -105,7 +118,25 @@ h1, h2, h3, h4, h5 {
 /*+++++++++++++++++++++++++++INDIVIDUAL QUESTION ANSWER DISPLAYS++++++++++++++++++++++++++++++++++++*/
 
 .question-image {
-  margin: 15px 0;
+  margin: 15px 0 50px 0;
+}
+
+.question-title-header {
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+.answer-title-header {
+  text-align: left;
+  font-size: 1rem;
+}
+
+.question-info-main, .answer-info-main {
+  font-size: 0.7rem;
+}
+
+.question-content-main, .answer-contenet-main {
+  font-size: .9rem;
 }
 
 
