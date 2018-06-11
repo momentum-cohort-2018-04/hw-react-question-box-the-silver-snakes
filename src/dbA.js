@@ -6,7 +6,7 @@ const dbA = [
     'created_at': '2018-06-10T22:12:24.368Z',
     'updated_at': '2018-06-10T22:12:24.368Z',
     'image': 'https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg',
-    'user_id': 2,
+    'user_id': 3,
     'username': 'SmartyMcSmartyPants',
     'question_id': 1,
     'verify_answer': true

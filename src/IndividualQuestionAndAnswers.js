@@ -1,11 +1,12 @@
 // /* global localStorage */
 import React, { Component } from 'react'
 import './App.css'
-import request from 'superagent'
+// import request from 'superagent'
 import moment from 'moment'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import PostAnswer from './PostAnswer'
 import EditAnswer from './EditAnswer'
+import EditQuestion from './EditQuestion'
 import {Button} from 'react-foundation'
 import dbA from './dbA'
 
@@ -25,7 +26,7 @@ class IndividualQuestionAndAnswers extends Component {
     this.state = {
       // questions: this.props.questions,
       questionId: this.props.history.location.pathname.split('/')[2],
-      // userId: this.props
+      userId: window.localStorage.user ? window.localStorage.user : '2',
       // question: this.props.entry,
       // entry: '',
       entry: spiderpug,
@@ -69,6 +70,7 @@ class IndividualQuestionAndAnswers extends Component {
         <div>
           <Route exact path='/post/answer' render={({history}) => <PostAnswer history={history} questionTitle={this.state.entry.title} questionContent={this.state.entry.content} questionImage={this.state.entry.image} cancelSubmit={this.cancelSubmit.bind(this)} />} />
           <Route exact path='/edit/answer' render={({history}) => <EditAnswer history={history} />} />
+          <Route exact path='/edit/question' render={({history}) => <EditQuestion history={history} />} />
           <Route exact path={`/question/${this.state.questionId}`} render={({history}) =>
             <React.Fragment>
               <div>
@@ -78,7 +80,7 @@ class IndividualQuestionAndAnswers extends Component {
                     <p className='question-info-main'>Created on {this.state.entry.created_at}</p>
                     <p className='question-content-main'>{this.state.entry.content}</p>
                     <img className='question-image' src={this.state.entry.image} alt='Unknown' />
-                    <Link to='/edit/answer' ><Button className='edit-question-button'>Edit Question</Button></Link>
+                    <Link to='/edit/question' ><Button className='edit-question-button'>Edit Question</Button></Link>
 
                     <div className='answerButtonDiv'>
                       <Link to='/post/answer'><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
@@ -94,6 +96,7 @@ class IndividualQuestionAndAnswers extends Component {
                         <p className='answer-contenet-main'>{answer.content}</p>
                         <img className='question-image' src={answer.image} alt='identification image' />
                         <br />
+                        {answer.id === this.state.userId && <Link to='/edit/answer' ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
                         <Button>Verify This Answer</Button>
                       </div>
                     )
