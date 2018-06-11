@@ -24,7 +24,7 @@ class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      // questions: this.props.questions,
+      questions: this.props.questions,
       questionId: this.props.history.location.pathname.split('/')[2],
       userId: window.localStorage.user ? window.localStorage.user : '2',
       // question: this.props.entry,

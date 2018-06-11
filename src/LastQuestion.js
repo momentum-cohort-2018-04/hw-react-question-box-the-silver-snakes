@@ -15,13 +15,13 @@ const test = {
   'userID': 1,
   'created_at': '2018-06-09T01:35:00.751Z',
   'updated_at': '2018-06-09T01:35:00.751Z',
-  'title': 'tempor ea ex magna aliquip velit non dolor sint cupidatat',
+  'title': 'Tempor ea ex magna aliquip velit non dolor sint cupidatat',
   'content': 'Ut mollit aliqua do nisi consectetur. Eiusmod ea voluptate quis est excepteur. Excepteur deserunt ut velit minim cupidatat deserunt magna qui aliquip reprehenderit et laboris et. Magna pariatur esse anim do excepteur do aliqua ut.',
   'image': 'https://images.dog.ceo/breeds/bullterrier-staffordshire/n02093256_3582.jpg',
   'answers': [{
     'username': 'atorrez',
     'userID': 1,
-    'title': 'tempor ea ex magna aliquip velit non dolor sint cupidatat',
+    'title': 'Tempor ea ex magna aliquip velit non dolor sint cupidatat',
     'content': 'Ut mollit aliqua do nisi consectetur. Eiusmod ea voluptate quis est excepteur. Excepteur deserunt ut velit minim cupidatat deserunt magna qui aliquip reprehenderit et laboris et. Magna pariatur esse anim do excepteur do aliqua ut.',
     'image': 'https://images.dog.ceo/breeds/collie-border/n02106166_7454.jpg'
   }, {
@@ -106,15 +106,13 @@ class LastQuestion extends Component {
                   <Link to='/edit/question' ><Button className='edit-question-button'>Edit Question</Button></Link>
                   <br />
                   <img className='question-image' src={this.state.entry.image} alt='Unknown' />
-
                   <div className='answerButtonDiv'>
                     <Link to='/post/answer'><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
                   </div>
                 </div>
-
                 <div className='answerDisplayDiv'>
                   {this.state.answerArray.map((answer, i) => (
-                    <div key={answer.id} className='answerDiv'>
+                    <div key={i} className='answerDiv'>
                       <hr />
                       <h4 className='answer-title-header'>{answer.title}</h4>
                       <p className='answer-info-main'>{answer.username} {answer.created_at}</p>
@@ -123,8 +121,8 @@ class LastQuestion extends Component {
                       <br />
                       {console.log(answer.userID)}
                       {console.log(this.state.userID)}
-                      {Number(answer.userID) === Number(this.state.userID) && <Link to='/edit/answer'><Button className='edit-answer-button'>Edit Answer</Button></Link>}
                       <Button>Verify This Answer</Button>
+                      {Number(answer.userID) === Number(this.state.userID) && <Link to='/edit/answer'><Button className='edit-answer-button'>Edit Answer</Button></Link>}
                     </div>
                   )
                   )}

@@ -16,9 +16,9 @@ class Questions extends Component {
     super()
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : 'm',
-      questions: db,
+      questions: db
       // questions: dbAll.questions,
-      cancelSubmit: false
+      // cancelSubmit: false
     }
     // this.getQuestions()
   }
