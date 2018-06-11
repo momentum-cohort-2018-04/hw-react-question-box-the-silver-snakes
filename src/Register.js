@@ -1,11 +1,18 @@
-import React, {Component} from 'react'
-import {Button, Callout, Colors} from 'react-foundation'
+import React, {
+  Component
+} from 'react'
+import {
+  Button,
+  Callout,
+  Colors
+} from 'react-foundation'
 import request from 'superagent'
+import apiUrl from './apiUrl'
 import './foundation.css'
 
 class Register extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       username: '',
       password: '',
@@ -17,58 +24,70 @@ class Register extends Component {
     this.attemptLogin = this.attemptLogin.bind(this)
   }
   handleChange (event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
-  doNOthing (event) {
+  attemptLogin (event) {
     event.preventDefault()
-  }
-
-  attemptLogin () {
-    console.log('register attempted')
-    if (this.state.password === this.state.passwordDup) {
+    if (this.state.username !== '' && this.state.password !== '' && this.state.password === this.state.passwordDup) {
+      console.log('ACTUAL register attempted')
       request
-        .post(`localhost:3000/api/v1/users`)
-        // .set('Content-Type', 'application/json')
+        .post(apiUrl('/api/v1/users'))
         .send({
           'username': this.state.username,
           'password': this.state.password
         })
-        .then((response) => {
-          if (response.status === 201) {
-            window.localStorage.token = response
-            this.setState({token: response})
-            this.setState({registrationFail: false})
+        .catch((error) => {
+          if (error.status === 422) {
+            this.setState({
+              registrationFail: true
+            })
+          }
+          if (error.status === 201) {
+            console.log('Register Cleared, Logging in', error.status)
+            // THIS IS DUMB
+            request
+              .post(apiUrl(`/api/v1/sessions`))
+              .send({
+                'username': this.state.username,
+                'password': this.state.password
+              })
+              .then((response) => {
+                if (response.status === 201) {
+                  // console.log(response.body)
+                  window.localStorage.token = response.body.api_token
+                  window.localStorage.user = response.body.id
+                  window.localStorage.username = response.body.username
+                  this.setState({
+                    token: response.body.api_token,
+                    userID: response.body.id,
+                    username: response.body.username,
+                    register: true
+                  })
+                  this.props.update()
+                  this.props.history.push('/')
+                }
+              })
           }
         })
-        .catch((error) => {
-          console.log(error)
-          console.log(error.status)
-        })
     } else {
-      this.setState({registrationFail: true})
+      return null
     }
   }
   render () {
-    return (
-      <div className='fullcenter'>
-        <div className='title'><h1>Register</h1></div>
-        <form onSubmit={this.attemptLogin}>
-          <label>Username</label>
-          <input type='text' name='username' placeholder='create your username' onChange={(event) => this.handleChange(event)} />
-          <label>Password</label>
-          <input type='text' name='password' placeholder='create your password' onChange={(event) => this.handleChange(event)} />
-          <label>Password Confirmation</label>
-          <input type='text' name='passwordDup' placeholder='confirm your password' onChange={(event) => this.handleChange(event)} />
-          {this.state.password !== '' && this.state.password === this.state.passwordDup && <div className='input-success'>Your Passwords Match!</div>}
-          {this.state.password && this.state.passwordDup && this.state.password !== this.state.passwordDup && <div className='input-warning'>Passwords Do Not Match!</div>}
-          {this.state.password !== '' && this.state.password === this.state.passwordDup ? <Button isExpanded>Submit</Button> : <Button isExpanded isDisabled onClick={(event) => this.doNOthing(event)}>Submit</Button>}
-          {this.state.registrationFail && <Callout color={Colors.ALERT} className='text-center'>
-            <h5>Unable to Register</h5>
-            <p>Username taken, please choose another</p>
-          </Callout>}
-        </form>
-      </div>
+    return (<div className='fullcenter' >
+      <div className='title' > <h1 > Register </h1></div >
+      <form onSubmit={(event) => this.attemptLogin(event)} >
+        <label > Username </label> <input type='text' name='username' placeholder='create your username' onChange={(event) => this.handleChange(event)} />
+        <label > Password </label > <input type='text' name='password' placeholder='create your password' onChange={(event) => this.handleChange(event)} />
+        <label > Password Confirmation </label > <input type='text' name='passwordDup' placeholder='confirm your password' onChange={(event) => this.handleChange(event)} />
+        { this.state.password !== '' && this.state.password === this.state.passwordDup && <div className='input-success' > Your Passwords Match! </div>} {
+          this.state.password && this.state.passwordDup && this.state.password !== this.state.passwordDup && <div className='input-warning' > Passwords Do Not Match! </div>} {
+          this.state.password !== '' && this.state.password === this.state.passwordDup ? <Button isExpanded > Submit </Button> : <Button isExpanded isDisabled>Submit</Button >}
+        { this.state.registrationFail && <Callout color={Colors.ALERT} className='text-center' >
+          <h5 > Unable to Register </h5> <p > Username taken, please choose another </p > </Callout>} </form > </div>
     )
   }
 }

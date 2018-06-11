@@ -1,112 +1,108 @@
 // /* global localStorage */
 import React, { Component } from 'react'
-import './App.css'
-// import request from 'superagent'
-import moment from 'moment'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import PostAnswer from './PostAnswer'
-import EditAnswer from './EditAnswer'
-import EditQuestion from './EditQuestion'
+import { Link } from 'react-router-dom'
 import {Button} from 'react-foundation'
-import dbA from './dbA'
+import request from 'superagent'
+import moment from 'moment'
+import './App.css'
 
-const spiderpug = {
-  'id': 42,
-  'title': 'Spider Identification',
-  'content': 'What kind of spider is this?! I saw it at the park today and I am concerned that we have mutant spiders in our neighborhood. It didn\'t seem aggressive, but it did follow this lady around, possibly stalking her.',
-  'created_at': '2018-06-09T01:34:41.300Z',
-  'updated_at': '2018-06-09T01:34:41.300Z',
-  'image': 'http://cdn.trendhunterstatic.com/thumbs/pug-spider.jpeg',
-  'user_id': 4
-}
+import apiUrl from './apiUrl'
 
 class IndividualQuestionAndAnswers extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      // questions: this.props.questions,
-      questionId: this.props.history.location.pathname.split('/')[2],
-      userId: window.localStorage.user ? window.localStorage.user : '2',
-      // question: this.props.entry,
-      // entry: '',
-      entry: spiderpug,
-      answerArray: dbA,
-      // token: window.localStorage.token,
-      postAnAnswer: false,
-      editAnAnswer: false
+      userId: window.localStorage.user ? window.localStorage.user : '',
+      questionId: this.props.match.params.id,
+      entry: '',
+      token: window.localStorage.token ? window.localStorage.token : '',
+      answerArray: []
     }
-    this.selectQuestionEntry()
-    this.getAnswerArray = this.getAnswerArray.bind(this)
-    this.transformDate = this.transformDate.bind(this)
+    console.log('question ID', this.state.questionId)
+    this.verifyAnswer = this.verifyAnswer.bind(this)
   }
 
-  selectQuestionEntry () {
-    const newArray = this.state.questions.filter(entry => entry.questionID === this.state.questionId)
-    this.setState({entry: newArray})
-  }
-  componentDidUpdate () {
-    this.getAnswerArray()
-    this.transformDate()
+  componentDidMount () {
+    request
+      .get(apiUrl(`/api/v1/questions/${this.state.questionId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then(response => {
+        console.log(response)
+        this.setState({
+          entry: response.body,
+          answerArray: response.body.answers
+        })
+      })
   }
 
-  transformDate () {
-    let date = moment(this.state.questionCreateDate).format('MMMM Do YYYY')
-    this.setState({questionCreateDate: date})
+  deleteAnswer (event) {
+    request
+      .delete(apiUrl(`/api/v1/questions/${this.state.questionId}/answers/${event.target.id}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then(response => {
+        console.log(response)
+      })
   }
 
-  getAnswerArray () {
-    // request
-    //   .get(`api/v1/questions/${this.state.questionId}/answers`)
-    //   // .set('Authorization', 'Bearer ' + this.state.token)
-    //   .then(response => {
-    //     let answerArray = response.body
-    //     this.setState({answerArray: answerArray})
-    //   })
+  deleteQuestion () {
+    console.log('deleted', apiUrl(`/api/v1/questions/${this.state.questionId}`))
+    request
+      .delete(apiUrl(`/api/v1/questions/${this.state.questionId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then(response => {
+        console.log(response)
+      })
+  }
+
+  verifyAnswer (event) {
+    console.log('question ID', this.state.questionId)
+    console.log('answer ID', event.target.id)
   }
 
   render () {
     return (
-      <Router>
+      <React.Fragment>
         <div>
-          <Route exact path='/post/answer' render={({history}) => <PostAnswer history={history} questionTitle={this.state.entry.title} questionContent={this.state.entry.content} questionImage={this.state.entry.image} cancelSubmit={this.cancelSubmit.bind(this)} />} />
-          <Route exact path='/edit/answer' render={({history}) => <EditAnswer history={history} />} />
-          <Route exact path='/edit/question' render={({history}) => <EditQuestion history={history} />} />
-          <Route exact path={`/question/${this.state.questionId}`} render={({history}) =>
-            <React.Fragment>
-              <div>
-                <div className='hcenter'>
-                  <div className='questionDisplayDiv'>
-                    <h2 className='question-title-header'>{this.state.entry.title}</h2>
-                    <p className='question-info-main'>Created on {this.state.entry.created_at}</p>
-                    <p className='question-content-main'>{this.state.entry.content}</p>
-                    <img className='question-image' src={this.state.entry.image} alt='Unknown' />
-                    <Link to='/edit/question' ><Button className='edit-question-button'>Edit Question</Button></Link>
-
-                    <div className='answerButtonDiv'>
-                      <Link to='/post/answer'><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
-                    </div>
-                  </div>
-
-                  <div clasName='answerDisplayDiv'>
-                    {this.state.answerArray.map((answer, i) => (
-                      <div key={answer.id} className='answerDiv'>
-                        <hr />
-                        <h4 className='answer-title-header'>{answer.title}</h4>
-                        <p className='answer-info-main'>{answer.username} {answer.created_at}</p>
-                        <p className='answer-contenet-main'>{answer.content}</p>
-                        <img className='question-image' src={answer.image} alt='identification image' />
-                        <br />
-                        {answer.id === this.state.userId && <Link to='/edit/answer' ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
-                        <Button>Verify This Answer</Button>
-                      </div>
-                    )
-                    )}
-                  </div>
-                </div>
+          <div className='hcenter'>
+            <div className='questionDisplayDiv'>
+              <h2 className='question-title-header'>{this.state.entry.title}</h2>
+              <div className='question-info-main float-left'>Updated {moment(this.state.entry.updated).fromNow()}</div>
+              <div className='question-info-main float-right'>Created on {moment(this.state.entry.created).format('MMM Do YYYY')}</div>
+              <div className='clear' />
+              <p className='question-content-main'>{this.state.entry.content}</p>
+              {this.state.entry.image !== 'image' && <img className='question-image' src={this.state.entry.image} alt='Unknown' />}
+              {this.state.entry.image === 'image' && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
+              <div className='answerButtonDiv'>
+                <Link to={`/questions/${this.state.entry.questionID}/answers/add`}><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
+                <Link to={`/questions/${this.state.entry.questionID}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>
+                {this.state.entry.questionID == this.state.questionId && <Button id={this.state.questionId} isHollow onClick={() => this.deleteQuestion()}>Delete Answer</Button>}
               </div>
-            </React.Fragment>} />
+            </div>
+
+            <div className='answerDisplayDiv'>
+              {this.state.answerArray.map((answer, i) => (
+                <div key={i} className='answerDiv'>
+                  <hr />
+                  <h3 className='answer-title-header'>{answer.title}</h3>
+                  <h5 className='answer-info-main'>{answer.answerUsername}</h5>
+                  <p> {moment(answer.answerCreated).format('MMM Do YYYY')}</p>
+                  <p className='answer-contenet-main'>{answer.answerContent}</p>
+                  {answer.answerimage !== 'image' && <img className='question-image' src={answer.answerimage} alt='Unknown' />}
+                  {answer.answerimage === 'image' && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
+
+                  <br />
+                  {answer.id === this.state.userId && <Link to='/edit/answer' ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
+                  <Button id={answer.id} onClick={(event) => this.verifyAnswer(event)}>Verify This Answer</Button>
+
+                  {answer.answerUserID == this.state.userId && <Button id={answer.id} isHollow onClick={(event) => this.deleteAnswer(event)}>Delete Answer</Button>}
+                </div>
+              )
+              )}
+            </div>
+          </div>
         </div>
-      </Router>)
+      </React.Fragment>
+    )
   }
 }
 

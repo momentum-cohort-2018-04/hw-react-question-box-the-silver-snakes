@@ -1,21 +1,20 @@
 /// * global localStorage */
 import React, { Component } from 'react'
 import './App.css'
-// import request from 'superagent'
-import { BrowserRouter as Link } from 'react-router-dom'
+import request from 'superagent'
+// import { Link } from 'react-router-dom'
 import {Button} from 'react-foundation'
-import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
+import apiUrl from './apiUrl'
 
 class PostQuestion extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questionId: null, // When is this assigned?
-      userId: '',
+      userId: window.localStorage.user ? window.localStorage.user : '',
+      token: window.localStorage.token ? window.localStorage.token : '',
       title: '',
       content: '',
-      image: 'https://tinyurl.com/yb7ek22r',
-      donePosting: false,
+      image: '',
       history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
@@ -26,24 +25,23 @@ class PostQuestion extends Component {
   handleSubmit (event) {
     event.preventDefault()
     const body = {
-      questionId: this.state.questionId,
-      userId: this.state.userId,
+      user_id: Number(this.state.userId),
       title: this.state.title,
       content: this.state.content,
       image: this.state.image
     }
     console.log(body)
     event.preventDefault()
-    // request
-    //   .post(`api/v1/questions`)
-    //   .set('Authorization', 'Bearer ' + this.state.token)
-    //   .send(body)
-    //   .then((response) => {
-    //     if (response.status === 201) {
-    //       console.log('posted')
-    //       this.state.history.push('/')
-    //     }
-    //   })
+    request
+      .post(apiUrl(`/api/v1/questions`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .send(body)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('posted')
+          this.state.history.push('/')
+        }
+      })
   }
 
   handleChange (event) {
@@ -63,25 +61,20 @@ class PostQuestion extends Component {
   }
 
   render () {
-    if (this.state.donePosting) {
-      return (
-        <IndividualQuestionAndAnswers questionId={this.questionId} />)
-    } else {
-      return (
-        <div>
-          <div className='fullcenter'>
-            <h2 className='header'>Post a Question</h2>
-            <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
+    return (
+      <div>
+        <div className='fullcenter'>
+          <h2 className='header'>Post a Question</h2>
+          <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
             Title: <input type='text' name='title' onChange={this.handleChange} />
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
-              <Button className='submitButton' type='submit'>Submit</Button>
-              <Link to='/'><Button className='cancelButton' type='button' isHollow onClick={this.state.history.goBack}>Cancel</Button></Link>
-            </form>
-          </div>
+            <Button className='submitButton' type='submit'>Submit</Button>
+            <Button className='cancelButton' type='button' isHollow onClick={this.state.history.goBack}>Cancel</Button>
+          </form>
         </div>
-      )
-    }
+      </div>
+    )
   }
 }
 

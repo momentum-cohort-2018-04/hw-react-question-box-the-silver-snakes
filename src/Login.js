@@ -1,72 +1,67 @@
 import React, {Component} from 'react'
 import {Button} from 'react-foundation'
 import request from 'superagent'
-import Register from './Register'
+import {Link} from 'react-router-dom'
+import apiUrl from './apiUrl'
 
 class Login extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       username: '',
-      password: '',
-      register: false
+      password: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.attemptLogin = this.attemptLogin.bind(this)
-    this.registerNew = this.registerNew.bind(this)
   }
   handleChange (event) {
     this.setState({[event.target.name]: event.target.value})
   }
 
-  registerNew () {
-    this.setState({register: true})
-  }
-
-  attemptLogin () {
+  attemptLogin (event) {
+    event.preventDefault()
+    event.target.reset()
     console.log('loginattempted')
     request
-      .post(`localhost:3000/api/v1/sessions`)
-      // .set('Content-Type', 'application/json')
+      .post(apiUrl(`/api/v1/sessions`))
       .send({
         'username': this.state.username,
         'password': this.state.password
       })
       .then((response) => {
         if (response.status === 201) {
-          window.localStorage.token = response.api_token
-          this.setState({token: response.api_token})
-          // this.setState({registrationFail: false})
+          window.localStorage.token = response.body.api_token
+          window.localStorage.user = response.body.id
+          window.localStorage.username = response.body.username
+          this.setState({token: response.body.api_token,
+            userID: response.body.id,
+            username: response.body.username,
+            register: true})
+          this.props.update()
+          this.props.history.push('/')
         }
       })
       .catch((error) => {
-        console.log(error)
-        console.log(error.status)
+        console.log('Login Error', error, error.status)
       })
   }
   render () {
-    if (this.state.register) {
-      return (
-        <Register />
-      )
-    } else {
-      return (
-        <div className='fullcenter'>
-          <div className='title'><h1>Login</h1></div>
-          <form onSubmit={this.attemptLogin}>
-            <label>Username</label>
-            <input type='text' name='username' placeholder='enter username' onChange={(event) => this.handleChange(event)} />
-            <label>Password</label>
-            <input type='text' name='password' placeholder='enter password' onChange={(event) => this.handleChange(event)} />
-            {!this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
-            {!this.state.username && this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
-            {this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
-            {this.state.username && this.state.password && <Button isExpanded type='submit' >Submit</Button>}
-          </form>
-          <p>Don't have an account? <button className='register-button' onClick={this.registerNew}>Register here.</button></p>
-        </div>
-      )
-    }
+    return (
+      <div className='fullcenter'>
+        <div className='title'><h1>Login</h1></div>
+        <form onSubmit={(event) => this.attemptLogin(event)}>
+          <label>Username</label>
+          <input type='text' name='username' placeholder='enter username' onChange={(event) => this.handleChange(event)} />
+          <label>Password</label>
+          <input type='text' name='password' placeholder='enter password' onChange={(event) => this.handleChange(event)} />
+          {!this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
+          {!this.state.username && this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
+          {this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
+          {this.state.username && this.state.password && <Button isExpanded type='submit' >Submit</Button>}
+        </form>
+        <p>Don't have an account? <Link to='/register' >Register here.</Link></p>
+      </div>
+    )
   }
 }
 
