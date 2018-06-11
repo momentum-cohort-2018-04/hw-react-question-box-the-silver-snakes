@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import './App.css'
-// import request from 'superagent'
+import request from 'superagent'
 // import moment from 'moment'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import {Button} from 'react-foundation'
 import './foundation.css'
+import apiUrl from './apiUrl'
 
 class EditQuestion extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questionId: this.props.questionanswerId,
+      token: window.localStorage.token ? window.localStorage.token : '',
+      questionId: this.props.questionId,
       userId: this.props.questionuserId,
       title: this.props.questionTitle,
       content: this.props.questionContent,
@@ -34,17 +36,17 @@ class EditQuestion extends Component {
       token: window.localStorage.token
     }
     console.log(body)
-    // request
-    //   .put(`api/v1/questions/${this.state.questionId}`)
-    //   .set('Authorization', 'Bearer ' + this.state.token)
-    //   .send(body)
-    //   .then((response) => {
-    //     if (response.status === 201) {
-    //       // this.changePostingStatus()
-    //       this.state.history.push('/')
-    //     }
-    //   })
-    //   .end()
+    request
+      .put(apiUrl(`/questions/${this.state.questionId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .send(body)
+      .then((response) => {
+        if (response.status === 201) {
+          // this.changePostingStatus()
+          this.state.history.push('/')
+        }
+      })
+      .end()
   }
 
   handleChange (event) {
@@ -68,6 +70,7 @@ class EditQuestion extends Component {
       <Router >
         <div>
           <Route exact path='/edit/question' render={() =>
+          // Above line should go to '/questions/questionid/edit', I can't get the syntax
             <div>
               <h2 className='header'>Edit My Question</h2>
               <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
