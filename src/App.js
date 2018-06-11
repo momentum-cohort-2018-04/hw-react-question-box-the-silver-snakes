@@ -25,29 +25,27 @@ class App extends Component {
         <div>
           <header>
             <div className='breadcrumbs-example'>
-              <nav aria-label='You are here:' role='navigation'>
-                <Breadcrumbs>
-                  <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></Link></BreadcrumbItem>
-                  {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
-                  {!this.state.token &&
+              <Breadcrumbs>
+                <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' alt='logo' /></Link></BreadcrumbItem>
+                {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
+                {!this.state.token &&
                   <BreadcrumbItem className='nav-center'><Link to='/login'>Login/Register</Link></BreadcrumbItem>
-                  }
-                  {this.state.token &&
-                    <div>
-                      <BreadcrumbItem className='nav-center'><Link to='/user/questions'>My Questions</Link></BreadcrumbItem>
-                      <BreadcrumbItem className='nav-center'><Link to='/questions/last'>Last Q</Link></BreadcrumbItem>
-                      <BreadcrumbItem className='nav-center'><Link to='/??'>Logout</Link></BreadcrumbItem>
-                    </div>
-                  }
-                </Breadcrumbs>
-              </nav>
+                }
+                {this.state.token &&
+                <div>
+                  <BreadcrumbItem className='nav-center'><Link to='/user'>My Questions</Link></BreadcrumbItem>
+                  <BreadcrumbItem className='nav-center'><Link to='/last'>Last Q</Link></BreadcrumbItem>
+                  <BreadcrumbItem className='nav-center'><Link to='/??'>Logout</Link></BreadcrumbItem>
+                </div>
+                }
+              </Breadcrumbs>
             </div>
           </header>
 
-          <Route exact path='/' render={() => <Questions />} />
           <Route exact path='/login' render={() => <Login />} />
-          <Route path='/questions/last' render={() => <LastQuestion questionid='1' />} />
-          <Route path='/user/questions' render={() => <UserQuestions userid='1' />} />
+          <Route exact path='/last' render={() => <LastQuestion questionid='1' />} />
+          <Route exact path='/user' render={() => <UserQuestions userid='1' />} />
+          <Route exact path='/' render={() => <Questions />} />
 
         </div>
       </Router>

@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {Button} from 'react-foundation'
 import request from 'superagent'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Register from './Register'
 
 class Login extends Component {
