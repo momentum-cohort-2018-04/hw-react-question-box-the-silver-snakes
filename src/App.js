@@ -17,8 +17,19 @@ class App extends Component {
     super()
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
+      userid: window.localStorage.user ? window.localStorage.user : '',
+      username: window.localStorage.username ? window.localStorage.username : '',
       last: window.localStorage.last ? window.localStorage.last : ''
+
     }
+    this.updateApp = this.updateApp.bind(this)
+  }
+  updateApp () {
+    this.setState({
+      token: window.localStorage.token ? window.localStorage.token : '',
+      userid: window.localStorage.user ? window.localStorage.user : '',
+      username: window.localStorage.username ? window.localStorage.username : ''
+    })
   }
   render () {
     return (
@@ -33,17 +44,17 @@ class App extends Component {
                 {this.state.token &&
                 <div>
                   <BreadcrumbItem className='nav-center'><Link to='/user'>My Questions</Link></BreadcrumbItem>
-                  <BreadcrumbItem className='nav-center'><Link to='/last'>Last Q</Link></BreadcrumbItem>
+                  {/* <BreadcrumbItem className='nav-center'><Link to='/last'>Last Q</Link></BreadcrumbItem> */}
                   <BreadcrumbItem className='nav-center'><Link to='/??'>Logout</Link></BreadcrumbItem>
                 </div>}
               </Breadcrumbs>
             </div>
           </header>
-          <Route exact path='/register' render={({history}) => <Register history={history} />} />
-          <Route exact path='/login' render={({history}) => <Login history={history} />} />
-          <Route exact path='/last' render={() => <LastQuestion questionid='1' />} />
-          <Route exact path='/user' render={() => <UserQuestions userid='1' />} />
-          {/* <Route path='/' render={() => <Questions />} /> */}
+          <Route exact path='/register' render={({history}) => <Register history={history} update={this.updateApp} />} />
+          <Route exact path='/login' render={({history}) => <Login history={history} update={this.updateApp} />} />
+          {/* <Route exact path='/last' render={() => <LastQuestion questionid='1' />} /> */}
+          <Route exact path='/user' render={() => <UserQuestions />} />
+          <Route path='/' render={() => <Questions />} />
         </div>
       </Router>
     )

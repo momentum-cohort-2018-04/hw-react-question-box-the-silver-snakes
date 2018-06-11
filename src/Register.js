@@ -74,6 +74,7 @@ class Register extends Component {
                   window.localStorage.token = response.body.api_token
                   this.setState({token: response.body.api_token,
                     registrationFail: false})
+                  this.props.update()
                   this.props.history.push('/')
                 }
               })

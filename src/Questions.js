@@ -1,41 +1,41 @@
 import React, {Component} from 'react'
-// import request from 'superagent'
+import request from 'superagent'
 import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import moment from 'moment'
-// import dbAll from './db-allQ'
-import db from './db'
+import apiUrl from './apiUrl'
 
 import './foundation.css'
 import './App.css'
 import PostQuestion from './PostQuestion'
+import PostAnswer from './PostAnswer'
+import EditAnswer from './EditAnswer'
+import EditQuestion from './EditQuestion'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 class Questions extends Component {
   constructor (props) {
-    super()
+    super(props)
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
-      questions: db
-      // questions: dbAll.questions,
-      // cancelSubmit: false
+      questions: []
     }
-    // this.getQuestions()
   }
-
+  componentDidMount () {
+    this.getQuestions()
+  }
   getQuestions () {
-    this.setState({question: db})
-    // request
-  //     .get('localhost:3000/api/v1/questions')
-  //     .then((response) => {
-  //       console.log('first response', response)
-  //       if (response.status === 200) {
-  //         // this.setState({questions: response.questions})
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log('get Questions error', error.status)
-  //     })
+    request
+      .get(apiUrl('api/v1/questions'))
+      .then((response) => {
+        console.log('first response', response)
+        if (response.status === 200) {
+          this.setState({questions: response.body.questions})
+        }
+      })
+      .catch((error) => {
+        console.log('get Questions error', error.status)
+      })
   }
 
   render () {
@@ -45,8 +45,11 @@ class Questions extends Component {
       const created = moment(entry.created_at).format('MMM Do YYYY')
       const title = entry.title
       const content = entry.content
-      const image = entry.image
-      const user = entry.userName
+      let image = entry.image
+      if (image === 'image') {
+        image = 'https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559'
+      }
+      const user = entry.username
       const id = entry.id
       let shortForm
       let long
@@ -87,7 +90,10 @@ class Questions extends Component {
             </React.Fragment>
           } />
           <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
-          <Route path='/questions/' render={(props) => <IndividualQuestionAndAnswers {...props} questions={this.state.questions} />} />
+          <Route exact path='/questions/:id' render={(props) => <IndividualQuestionAndAnswers {...props} questions={this.state.questions} />} />
+          <Route path='/questions/:id/edit' render={(props) => <EditQuestion {...props} questions={this.state.questions} />} />
+          <Route path='/questions/:id/answers/:id/edit' render={(props) => <EditAnswer {...props} questions={this.state.questions} />} />
+          <Route path='/questions/:id/answers/add' render={(props) => <PostAnswer {...props} questions={this.state.questions} />} />
         </div>
       </Router>
     )

@@ -40,7 +40,7 @@ class Login extends Component {
             userID: response.body.id,
             username: response.body.username,
             register: true})
-
+          this.props.update()
           this.props.history.push('/')
         }
       })
