@@ -67,11 +67,13 @@ h1, h2, h3, h4, h5 {
   color: blue;
   cursor: pointer;
 }
+
 /*+++++++++++++++++++++++++++WALL O QUESTIONS++++++++++++++++++++++++++++++++++++*/
-.ask-button, .verify-button, .edit-question-button {
+.ask-button, .verify-button, .edit-question-button, .edit-answer-button {
   font-weight: 700;
   background-color: black;
   opacity: 0.8;
+  margin-right: 15px;
 }
 
 .ask-button:hover, .verify-button:hover {
@@ -128,11 +130,15 @@ h1, h2, h3, h4, h5 {
 
 .answer-title-header {
   text-align: left;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
-.question-info-main, .answer-info-main {
+.question-info-main {
   font-size: 0.7rem;
+}
+
+.answer-info-main {
+  font-size: 0.9rem;
 }
 
 .question-content-main, .answer-contenet-main {
