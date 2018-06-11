@@ -100,12 +100,18 @@ class LastQuestion extends Component {
               <div className='hcenter'>
                 <div className='questionDisplayDiv'>
                   <h2 className='question-title-header'>{this.state.entry.title}</h2>
-                  <p className='question-info-main'>Last Update {moment(this.state.entry.updated_at).fromNow()}</p>
-                  <p className='question-info-main'>Created on {moment(this.state.entry.created_at).format('MMM Do YYYY')}</p>
+                  <p className='question-info-main'>Last Update {moment(this.state.entry.updated_at).fromNow()}, created on {moment(this.state.entry.created_at).format('MMM Do YYYY')}</p>
                   <p className='question-content-main'>{this.state.entry.content}</p>
+<<<<<<< HEAD
                   <Link to='/edit/question' ><Button className='edit-question-button'>Edit Question</Button></Link>
                   <br />
                   <img className='question-image' src={this.state.entry.image} alt='Unknown' />
+=======
+                  <Link to='/edit/question' >
+                    <br />
+                    <img className='question-image' src={this.state.entry.image} alt='Unknown' />
+                    <Button className='edit-question-button'>Edit Question</Button></Link>
+>>>>>>> bc5eb1a00505640fb52e764ac0ed4b02f915b976
                   <div className='answerButtonDiv'>
                     <Link to='/post/answer'><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
                   </div>
@@ -115,7 +121,7 @@ class LastQuestion extends Component {
                     <div key={i} className='answerDiv'>
                       <hr />
                       <h4 className='answer-title-header'>{answer.title}</h4>
-                      <p className='answer-info-main'>{answer.username} {answer.created_at}</p>
+                      <p className='answer-info-main'>Submitted by <strong>{answer.username}</strong> {answer.created_at}</p>
                       <p className='answer-content-main'>{answer.content}</p>
                       <img className='question-image' src={answer.image} alt='identification image' />
                       <br />
