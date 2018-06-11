@@ -1,22 +1,22 @@
 /// * global localStorage */
 import React, { Component } from 'react'
 import './App.css'
-import request from 'superagent'
-// import moment from 'moment'
+// import request from 'superagent'
 import { BrowserRouter as Link } from 'react-router-dom'
 import {Button} from 'react-foundation'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 class PostQuestion extends Component {
   constructor (props) {
-    super()
+    super(props)
     this.state = {
       questionId: null, // When is this assigned?
       userId: '',
       title: '',
       content: '',
       image: 'https://tinyurl.com/yb7ek22r',
-      donePosting: false
+      donePosting: false,
+      history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,32 +30,31 @@ class PostQuestion extends Component {
       userId: this.state.userId,
       title: this.state.title,
       content: this.state.content,
-      image: this.state.image,
-      token: window.localStorage.token
+      image: this.state.image
     }
     console.log(body)
     event.preventDefault()
-    request
-      .post(`api/v1/questions`)
-      .set('Authorization', 'Bearer ' + this.state.token)
-      .send(body)
-      .then((response) => {
-        if (response.status === 201) {
-          console.log('posted')
-          this.props.history.push('/')
-        }
-      })
+    // request
+    //   .post(`api/v1/questions`)
+    //   .set('Authorization', 'Bearer ' + this.state.token)
+    //   .send(body)
+    //   .then((response) => {
+    //     if (response.status === 201) {
+    //       console.log('posted')
+    //       this.state.history.push('/')
+    //     }
+    //   })
   }
 
   handleChange (event) {
-    event.preventDefault()
+    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     this.setState({[name]: value})
   }
 
   handleImage (event) {
-    event.preventDefault()
+    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     if (value) {
@@ -77,7 +76,7 @@ class PostQuestion extends Component {
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' onChange={this.handleImage} />
               <Button className='submitButton' type='submit'>Submit</Button>
-              <Link to='/'><Button className='cancelButton' type='button' isHollow onClick={this.props.history.goBack}>Cancel</Button></Link>
+              <Link to='/'><Button className='cancelButton' type='button' isHollow onClick={this.state.history.goBack}>Cancel</Button></Link>
             </form>
           </div>
         </div>

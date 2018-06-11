@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 // import request from 'superagent'
 import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
-import { BrowserRouter as Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import moment from 'moment'
 // import dbAll from './db-allQ'
 import db from './db'
@@ -57,9 +57,13 @@ class Questions extends Component {
       return (
         <div className='question-each' key={index} id={id}>
           <MediaObject stackForSmall>
-            <Link to={{ pathname: '/questions', state: {question: entry} }}><MediaObjectSection isMiddle>
-              {image && <Thumbnail className='question-preview-img' src={image} alt='unknown' />}
-            </MediaObjectSection></Link>
+
+            <MediaObjectSection isMiddle>
+              <Link to={`questions/${id}`}>
+                {image && <Thumbnail className='question-preview-img' src={image} alt='unknown' />}
+              </Link>
+            </MediaObjectSection>
+
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
               <p id={userid} className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
@@ -70,21 +74,22 @@ class Questions extends Component {
         </div>)
     })
     return (
-      <div className='main'>
+      <Router>
+        <div className='main'>
 
-        <Route exact path='/' render={() =>
-
-          <React.Fragment>
-            <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
-            <div className='text-center'>
-              {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
-              {!this.state.token && 'Login to ask and answer questions'}</div>
-            <div className='questionsAll'>{questionList}</div>
-          </React.Fragment>
-        } />
-        <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
-        <Route path='/questions/:id' render={({history}) => <IndividualQuestionAndAnswers history={history} />} />
-      </div>
+          <Route exact path='/' render={() =>
+            <React.Fragment>
+              <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
+              <div className='text-center'>
+                {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
+                {!this.state.token && 'Login to ask and answer questions'}</div>
+              <div className='questionsAll'>{questionList}</div>
+            </React.Fragment>
+          } />
+          <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
+          <Route exact path='/questions/' render={({history}) => <IndividualQuestionAndAnswers history={history} questions={this.state.questions} />} />
+        </div>
+      </Router>
     )
   }
 }

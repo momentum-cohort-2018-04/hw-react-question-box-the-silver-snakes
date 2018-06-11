@@ -15,6 +15,14 @@ import Register from '../Register'
 // import LastQuestion from './LastQuestion'
 // import UserQuestions from './UserQuestions'
 
+const fakeHistory = {
+  push: (url) => console.log('pushed', url),
+  goBack: () => console.log('go back'),
+  location: {
+    pathname: '/questions/12'
+  }
+}
+
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
 storiesOf('Button', module)
@@ -28,7 +36,7 @@ storiesOf('Button', module)
   ))
 
 storiesOf('PostQuestion', module)
-  .add('with text', () => <PostAQuestion />)
+  .add('with text', () => <PostAQuestion history={fakeHistory} />)
 
 storiesOf('PostAnswer', module)
   .add('simpleRender', () => <PostAnswer questionId='2' />)
@@ -37,7 +45,7 @@ storiesOf('Questions', module)
   .add('simpleRender', () => <Questions />)
 
 storiesOf('IndividualQuestionsAndAnswers', module)
-  .add('simpleRender', () => <IndividualQuestionAndAnswers user_id='24' id='4' title='AHHHHH' content='AKSJDHAKJSHDKA' created_at='05 18 2009' image='' />)
+  .add('simpleRender', () => <IndividualQuestionAndAnswers history={fakeHistory} />)
 
 storiesOf('BaseLogin', module)
   .add('simpleRender', () => <Login />)

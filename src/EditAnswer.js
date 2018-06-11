@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
-import './App.css'
-import request from 'superagent'
-import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
-
-import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
+// import request from 'superagent'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {Button} from 'react-foundation'
 import './foundation.css'
+import './App.css'
 
 class EditAnswer extends Component {
   constructor (props) {
-    super()
+    super(props)
     this.state = {
       questionId: this.props.questionId,
-      answerId: this.props.answerId,
-      userId: this.props.userId,
-      title: this.props.title,
-      content: this.props.content,
-      image: this.props.image,
-      donePosting: false
+      answerId: this.props.questionanswerId,
+      userId: this.props.questionuserId,
+      title: this.props.questionTitle,
+      content: this.props.questionContent,
+      image: this.props.questionImage,
+      donePosting: false,
+      history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
-    this.changePostingStatus = this.changePostingStatus.bind(this)
   }
 
   handleSubmit (event) {
@@ -37,27 +36,27 @@ class EditAnswer extends Component {
     }
     console.log(body)
     event.preventDefault()
-    request
-      .put(`api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`)
-      .set('Authorization', 'Bearer ' + this.state.token)
-      .send(body)
-      .then((response) => {
-        if (response.status === 201) {
-          this.changePostingStatus()
-        }
-      })
-      .end()
+    // request
+    //   .put(`api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`)
+    //   .set('Authorization', 'Bearer ' + this.state.token)
+    //   .send(body)
+    //   .then((response) => {
+    //     if (response.status === 201) {
+    //       // this.changePostingStatus()
+    //       this.state.history.push('/')
+    //     }
+    //   })
   }
 
   handleChange (event) {
-    event.preventDefault()
+    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     this.setState({[name]: value})
   }
 
   handleImage (event) {
-    event.preventDefault()
+    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     if (value) {
@@ -65,44 +64,22 @@ class EditAnswer extends Component {
     }
   }
 
-  changePostingStatus () {
-    this.setState({donePosting: true})
-  }
-
   render () {
-    if (this.state.donePosting) {
-      return (
-        <IndividualQuestionAndAnswers questionId={this.state.questionId} />)
-    } else {
-      return (
-        <div>
-          <div>
-            <header>
-              <div className='breadcrumbs-example'>
-                <nav>
-                  <Breadcrumbs>
-                    <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' alt='Logo' /></a></BreadcrumbItem>
-                    <BreadcrumbItem><a href='/user/id'>My Questions</a></BreadcrumbItem>
-                    <BreadcrumbItem><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
-                    <BreadcrumbItem><a href='/??'>Logout</a></BreadcrumbItem>
-                  </Breadcrumbs>
-                </nav>
-              </div>
-            </header>
-          </div>
+    return (<Router >
+      <div>
+        <Route exact path='/edit/answer' render={() =>
           <div>
             <h2 className='header'>Edit An Answer</h2>
             <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
-            Title: <input type='text' name='title' value='this.state.title' onChange={this.handleChange} />
-            Answer: <input type='textarea' name='content' value='this.state.content' onChange={this.handleChange} />
-            Photo URL: <input type='url' name='image' value='this.state.image' onChange={this.handleImage} />
-              <button className='submitButton' type='submit'>Submit</button>
-              <button className='cancelButton' onClick={this.props.cancelSubmit}>Cancel</button>
+            Title: <input type='text' name='title' value={this.state.title} onChange={this.handleChange} />
+            Answer: <textarea className='content-textarea' type='textarea' name='content' value={this.state.content} onChange={this.handleChange} />
+            Photo URL: <input type='url' name='image' value={this.state.image} onChange={this.handleImage} />
+              <Button className='submitButton' type='submit'>Submit</Button>
+              <Button className='cancelButton' isHollow onClick={this.state.history.goBack}>Cancel</Button>
             </form>
-          </div>
-        </div>
-      )
-    }
+          </div>} />
+      </div>
+    </Router>)
   }
 }
 
