@@ -74,7 +74,7 @@ class Questions extends Component {
           <React.Fragment>
             <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
             <div className='text-center'>
-              {this.state.token && <Link to='/add'><Button className='button'>Add Question</Button></Link>}
+              {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
               {!this.state.token && 'Login to ask and answer questions'}</div>
             <div className='questionsAll'>{questionList}</div>
           </React.Fragment>

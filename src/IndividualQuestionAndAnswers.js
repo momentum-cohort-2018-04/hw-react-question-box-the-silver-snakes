@@ -95,13 +95,14 @@ class IndividualQuestionAndAnswers extends Component {
           </div>
           <div className='hcenter'>
             <div className='questionDisplayDiv'>
-              <h2 className='header'>{this.state.entry.title}</h2>
-              <p>Created on {this.state.entry.created_at}</p>
-              <p>{this.state.entry.content}</p>
-              <img src={this.state.entry.image} />
+              <h2 className='question-title-header'>{this.state.entry.title}</h2>
+              <p className='question-info-main'>Created on {this.state.entry.created_at}</p>
+              <p className='question-content-main'>{this.state.entry.content}</p>
+              <img className='question-image' src={this.state.entry.image} />
+              <Button className='edit-question-button'>Edit Question</Button>
 
               <div className='answerButtonDiv'>
-                <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
+                <Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button>
               </div>
             </div>
 
@@ -111,7 +112,7 @@ class IndividualQuestionAndAnswers extends Component {
                 <p>SmartyMcSmartyPants July 20 1910</p>
                 <p>This is totally a pugantula. They are native to North America and hunt wolves and deer. They form herds and take down humans as a last resort due to humans overhunting their primary prey sources. I would stay away from that park if I were you. Here's a photo of one trying to take down a human on its own.</p>
                 <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' />
-                <Button isExpanded>Upvote</Button>
+                <Button isExpanded className='verify-button'>Verify This Answer</Button>
               </div>
               <div key='124' className='answerDiv'>
                 <h4>It's a common black house spider</h4>
@@ -124,11 +125,12 @@ class IndividualQuestionAndAnswers extends Component {
               {/* <div clasName='answerDisplayDiv'>
               {this.state.answerArray.map((answer, i) => (
               //     <div key={answer.id} className='answerDiv'>
-              //       <h4>{answer.title}</h4>
-              //       <p>{answer.username} {answer.created_at}</p>
-              //       <p>{answer.content}</p>
-              //       <img className='question-image' src={answer.image} />
-              //       <Button>Upvote</Button>
+                       <hr />
+                  <h4 className='answer-title-header'>{answer.title}</h4>
+                  <p className='answer-info-main'>{answer.username} {answer.created_at}</p>
+                  <p className='answer-contenet-main'>{answer.content}</p>
+                  <img className='question-image' src={answer.image} />
+                  <Button >Verify This Answer</Button>
               // </div> */}
               )
               )}
