@@ -95,7 +95,7 @@ class LastQuestion extends Component {
               <h2 className='header'>{this.state.entry.title}</h2>
               <p>Created on {this.state.entry.created_at}</p>
               <p>{this.state.entry.content}</p>
-              <img className='question-image' src={this.state.entry.image} />
+              <img className='question-image' src={this.state.entry.image} alt='unknown' />
 
               <div className='answerButtonDiv'>
                 <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
@@ -107,7 +107,7 @@ class LastQuestion extends Component {
                   <h4>{answer.title}</h4>
                   <p>{answer.username} {answer.created_at}</p>
                   <p>{answer.content}</p>
-                  <img className='question-image' src={answer.image} />
+                  <img className='question-image' src={answer.image} alt='visual identification' />
                   <Button isExpanded>Upvote</Button>
                 </div>
               )

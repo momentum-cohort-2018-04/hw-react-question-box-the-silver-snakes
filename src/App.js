@@ -25,9 +25,9 @@ class App extends Component {
         <div>
           <header>
             <div className='breadcrumbs-example'>
-              <nav aria-label='You are here:' role='navigation'>
+              <nav>
                 <Breadcrumbs>
-                  <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></Link></BreadcrumbItem>
+                  <BreadcrumbItem><Link to='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' alt='' /></Link></BreadcrumbItem>
                   {/* <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem> */}
                   {!this.state.token &&
                   <BreadcrumbItem className='nav-center'><Link to='/login'>Login/Register</Link></BreadcrumbItem>
@@ -44,10 +44,10 @@ class App extends Component {
             </div>
           </header>
 
-          <Route exact path='/' render={() => <Questions />} />
+          <Route path='/' render={() => <Questions />} />
           <Route exact path='/login' render={() => <Login />} />
-          <Route path='/questions/last' render={() => <LastQuestion questionid='1' />} />
-          <Route path='/user/questions' render={() => <UserQuestions userid='1' />} />
+          <Route exact path='/questions/last' render={() => <LastQuestion questionid='1' />} />
+          <Route exact path='/user/questions' render={() => <UserQuestions userid='1' />} />
 
         </div>
       </Router>

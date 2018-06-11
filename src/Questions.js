@@ -3,11 +3,13 @@ import React, {Component} from 'react'
 import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
 import { BrowserRouter as Switch, Route, Link } from 'react-router-dom'
 import moment from 'moment'
+// import dbAll from './db-allQ'
 import db from './db'
 
 import './foundation.css'
 import './App.css'
 import PostQuestion from './PostQuestion'
+import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 class Questions extends Component {
   constructor (props) {
@@ -15,6 +17,7 @@ class Questions extends Component {
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : 'm',
       questions: db,
+      // questions: dbAll.questions,
       cancelSubmit: false
     }
     // this.getQuestions()
@@ -54,12 +57,12 @@ class Questions extends Component {
       return (
         <div className='question-each' key={index} id={id}>
           <MediaObject stackForSmall>
-            <MediaObjectSection isMiddle>
-              {image && <Thumbnail className='question-preview-img' src={image} />}
-            </MediaObjectSection>
+            <Link to={{ pathname: '/questions', state: {question: entry} }}><MediaObjectSection isMiddle>
+              {image && <Thumbnail className='question-preview-img' src={image} alt='unknown' />}
+            </MediaObjectSection></Link>
             <MediaObjectSection isMiddle>
               <h5 className='question-title'>{title}</h5>
-              <p className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
+              <p id={userid} className='text-left question-info'>Posted by<strong> {user} </strong> on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
             </MediaObjectSection>
@@ -72,14 +75,15 @@ class Questions extends Component {
         <Route exact path='/' render={() =>
 
           <React.Fragment>
-            <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' /></h1></div>
+            <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
             <div className='text-center'>
               {this.state.token && <Link to='/add'><Button className='button'>Add Question</Button></Link>}
               {!this.state.token && 'Login to ask and answer questions'}</div>
             <div className='questionsAll'>{questionList}</div>
           </React.Fragment>
         } />
-        <Route path='/add' render={({history}) => <PostQuestion history={history} />} />
+        <Route exact path='/add' render={({history}) => <PostQuestion history={history} />} />
+        <Route path='/questions/:id' render={({history}) => <IndividualQuestionAndAnswers history={history} />} />
       </div>
     )
   }

@@ -23,8 +23,8 @@ class IndividualQuestionAndAnswers extends Component {
     super()
     this.state = {
       // userId: 4, ????
-      // entry: this.props.entry,
-      entry: spiderpug,
+      // question: this.props.entry,
+      question: spiderpug,
       answerArray: [],
       // token: window.localStorage.token,
       postAnAnswer: false,
@@ -84,10 +84,10 @@ class IndividualQuestionAndAnswers extends Component {
           <div>
             <header className=''>
               <Breadcrumbs className='nav'>
-                <BreadcrumbItem><a href='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' /></a></BreadcrumbItem>
+                <BreadcrumbItem><a href='/'><img className='nav_img' src='https://tinyurl.com/yb7ek22r' alt='logo' /></a></BreadcrumbItem>
                 {/* <BreadcrumbItem><a href='/'><img className='nav_img' src='./images/whatisit.png' /></a></BreadcrumbItem> */}
                 <BreadcrumbItem className='nav-center'><a href='/user/id'>My Questions</a></BreadcrumbItem>
-                {/* ^^^ pass userid by this.state.entry.user_id */}
+                {/* ^^^ pass userid by this.state.question.user_id */}
                 <BreadcrumbItem className='nav-center'><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
                 <BreadcrumbItem className='nav-center'><a href='/??'>Logout</a></BreadcrumbItem>
               </Breadcrumbs>
@@ -95,10 +95,10 @@ class IndividualQuestionAndAnswers extends Component {
           </div>
           <div className='hcenter'>
             <div className='questionDisplayDiv'>
-              <h2 className='header'>{this.state.entry.title}</h2>
-              <p>Created on {this.state.entry.created_at}</p>
-              <p>{this.state.entry.content}</p>
-              <img src={this.state.entry.image} />
+              <h2 className='header'>{this.state.question.title}</h2>
+              <p>Created on {this.state.question.created_at}</p>
+              <p>{this.state.question.content}</p>
+              <img src={this.state.question.image} alt='Unknown' />
 
               <div className='answerButtonDiv'>
                 <Button isExpanded className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Answer</Button>
@@ -110,14 +110,14 @@ class IndividualQuestionAndAnswers extends Component {
                 <h4>It's a pugantula</h4>
                 <p>SmartyMcSmartyPants July 20 1910</p>
                 <p>This is totally a pugantula. They are native to North America and hunt wolves and deer. They form herds and take down humans as a last resort due to humans overhunting their primary prey sources. I would stay away from that park if I were you. Here's a photo of one trying to take down a human on its own.</p>
-                <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' />
+                <img src='https://i.pinimg.com/originals/9b/f4/fa/9bf4fa149f6dfa7dc8d009b5efd60d9e.jpg' alt='Visual ID' />
                 <Button isExpanded>Upvote</Button>
               </div>
               <div key='124' className='answerDiv'>
                 <h4>It's a common black house spider</h4>
                 <p>PantsonFire July 21 1910</p>
                 <p>SmartyMcSmartyPants is totally off. Pugantulas are a fawn color and this species is black. It is clearly a common house spider. I've attached a photo for reference.</p>
-                <img className='question-image' src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' />
+                <img className='question-image' src='https://museumsvictoria.com.au/spiders/images/medium/mn16974.jpg' alt='Visual ID' />
                 <Button isExpanded>Upvote</Button>
               </div>
 
@@ -127,11 +127,11 @@ class IndividualQuestionAndAnswers extends Component {
               //       <h4>{answer.title}</h4>
               //       <p>{answer.username} {answer.created_at}</p>
               //       <p>{answer.content}</p>
-              //       <img className='question-image' src={answer.image} />
+              //       <img className='question-image' src={answer.image} alt='visual identification' />
               //       <Button>Upvote</Button>
               // </div> */}
-              )
-              )}
+              {/* ) */}
+              {/* )} */}
             </div>
           </div>
         </div>

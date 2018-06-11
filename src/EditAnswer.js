@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
 import request from 'superagent'
-import moment from 'moment'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 
 import {Breadcrumbs, BreadcrumbItem} from 'react-foundation'
@@ -81,9 +79,9 @@ class EditAnswer extends Component {
           <div>
             <header>
               <div className='breadcrumbs-example'>
-                <nav aria-label='You are here:' role='navigation'>
+                <nav>
                   <Breadcrumbs>
-                    <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' /></a></BreadcrumbItem>
+                    <BreadcrumbItem><a href='/'><img src='./images/whatisit.png' alt='Logo' /></a></BreadcrumbItem>
                     <BreadcrumbItem><a href='/user/id'>My Questions</a></BreadcrumbItem>
                     <BreadcrumbItem><a href='/questions/qid?'>Last Q</a></BreadcrumbItem>
                     <BreadcrumbItem><a href='/??'>Logout</a></BreadcrumbItem>
