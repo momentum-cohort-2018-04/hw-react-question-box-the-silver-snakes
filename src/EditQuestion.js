@@ -12,6 +12,7 @@ class EditQuestion extends Component {
     super(props)
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
+      id: window.localStorage.user ? window.localStorage.user : '',
       questionId: this.props.questionId,
       userId: this.props.questionuserId,
       title: this.props.questionTitle,
@@ -23,6 +24,23 @@ class EditQuestion extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
+    this.getQuestion = this.getQuestion.bind(this)
+    this.getQuestion()
+  }
+
+  getQuestion () {
+    request
+      .get(apiUrl(`/api/v1/questions/${this.state.questionId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then((response) => {
+        console.log(response)
+        if (response.status === 200) {
+          this.setState({questions: response.body})
+        }
+      })
+      .catch((error) => {
+        console.log('get Question error', error.status)
+      })
   }
 
   handleSubmit (event) {
@@ -49,6 +67,13 @@ class EditQuestion extends Component {
       .end()
   }
 
+  componentDidMount () {
+    this.setState({
+      token: window.localStorage.token ? window.localStorage.token : '',
+      id: window.localStorage.user ? window.localStorage.user : ''
+    })
+  }
+
   handleChange (event) {
     event.preventDefault()
     const name = event.target.name
@@ -69,8 +94,7 @@ class EditQuestion extends Component {
     return (
       <Router >
         <div>
-          <Route exact path='/edit/question' render={() =>
-          // Above line should go to '/questions/questionid/edit', I can't get the syntax
+          <Route exact path={`/questions/${this.state.questionId}/edit`} render={() =>
             <div>
               <h2 className='header'>Edit My Question</h2>
               <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
