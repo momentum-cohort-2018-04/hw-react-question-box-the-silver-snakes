@@ -21,7 +21,6 @@ class Login extends Component {
   attemptLogin (event) {
     event.preventDefault()
     event.target.reset()
-    console.log('loginattempted')
     request
       .post(apiUrl(`/api/v1/sessions`))
       .send({
@@ -35,8 +34,8 @@ class Login extends Component {
           window.localStorage.username = response.body.username
           this.setState({token: response.body.api_token,
             userID: response.body.id,
-            username: response.body.username,
-            register: true})
+            username: response.body.username
+          })
           this.props.update()
           this.props.history.push('/')
         }
