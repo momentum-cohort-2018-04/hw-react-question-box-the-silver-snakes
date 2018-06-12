@@ -1,11 +1,5 @@
-import React, {
-  Component
-} from 'react'
-import {
-  Button,
-  Callout,
-  Colors
-} from 'react-foundation'
+import React, { Component } from 'react'
+import { Button, Callout, Colors } from 'react-foundation'
 import request from 'superagent'
 import apiUrl from './apiUrl'
 import './foundation.css'
@@ -32,7 +26,6 @@ class Register extends Component {
   attemptLogin (event) {
     event.preventDefault()
     if (this.state.username !== '' && this.state.password !== '' && this.state.password === this.state.passwordDup) {
-      console.log('ACTUAL register attempted')
       request
         .post(apiUrl('/api/v1/users'))
         .send({
@@ -47,7 +40,7 @@ class Register extends Component {
           }
           if (error.status === 201) {
             console.log('Register Cleared, Logging in', error.status)
-            // THIS IS DUMB
+            // Necessary for now
             request
               .post(apiUrl(`/api/v1/sessions`))
               .send({
@@ -56,15 +49,13 @@ class Register extends Component {
               })
               .then((response) => {
                 if (response.status === 201) {
-                  // console.log(response.body)
                   window.localStorage.token = response.body.api_token
                   window.localStorage.user = response.body.id
                   window.localStorage.username = response.body.username
                   this.setState({
                     token: response.body.api_token,
                     userID: response.body.id,
-                    username: response.body.username,
-                    register: true
+                    username: response.body.username
                   })
                   this.props.update()
                   this.props.history.push('/')

@@ -17,12 +17,13 @@ class PostAnswer extends Component {
       token: window.localStorage.token ? window.localStorage.token : '',
       title: '',
       content: '',
-      image: '',
+      image_url: '',
       history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
+    this.goRoot = this.goRoot.bind(this)
   }
 
   handleSubmit (event) {
@@ -30,9 +31,9 @@ class PostAnswer extends Component {
     const body = {
       question_id: Number(this.state.questionId),
       user_id: Number(this.state.userId),
-      // title: this.state.title,
-      content: this.state.content
-      // image: this.state.image
+      title: this.state.title,
+      content: this.state.content,
+      image_url: this.state.image_url
     }
     console.log(body)
     request
@@ -40,8 +41,8 @@ class PostAnswer extends Component {
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .then((response) => {
-        console.log(response)
-        if (response.status === 201) {
+        console.log(response.status)
+        if (response.status === 200) {
           this.props.history.push('/')
         }
       })
@@ -63,17 +64,22 @@ class PostAnswer extends Component {
     }
   }
 
+  goRoot () {
+    this.props.history.push(`/questions/${this.state.questionId}`)
+  }
+
   render () {
     return (
       <div className='fullcenter'>
         <h2 className='header'>Answer a Question</h2>
-        <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
+        <form className='postAnswerForm' onSubmit={this.handleSubmit} >
             Title: <input type='text' name='title' onChange={this.handleChange} />
             Answer: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
-            Photo URL: <input type='url' name='image' onChange={this.handleImage} />
+            Photo URL: <input type='url' name='image_url' onChange={this.handleImage} />
           <Button className='submitButton' type='submit'>Submit</Button>
-          <Button className='cancelButton' onClick={this.state.history.goBack} isHollow >Cancel</Button>
+          <Button className='cancelButton' isHollow onClick={this.goRoot}>Cancel</Button>
         </form>
+
       </div>
     )
   }

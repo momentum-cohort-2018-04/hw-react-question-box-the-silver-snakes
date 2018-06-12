@@ -14,7 +14,7 @@ class PostQuestion extends Component {
       token: window.localStorage.token ? window.localStorage.token : '',
       title: '',
       content: '',
-      image: '',
+      image_url: '',
       history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
@@ -28,16 +28,15 @@ class PostQuestion extends Component {
       user_id: Number(this.state.userId),
       title: this.state.title,
       content: this.state.content,
-      image: this.state.image
+      image_url: this.state.image_url
     }
-    console.log(body)
     event.preventDefault()
     request
       .post(apiUrl(`/api/v1/questions`))
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log('posted')
           this.state.history.push('/')
         }
@@ -45,14 +44,12 @@ class PostQuestion extends Component {
   }
 
   handleChange (event) {
-    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     this.setState({[name]: value})
   }
 
   handleImage (event) {
-    // event.preventDefault()
     const name = event.target.name
     const value = event.target.value
     if (value) {
@@ -68,7 +65,7 @@ class PostQuestion extends Component {
           <form className='postQuestionForm' type='submit' onSubmit={this.handleSubmit}>
             Title: <input type='text' name='title' onChange={this.handleChange} />
             Content: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
-            Photo URL: <input type='url' name='image' onChange={this.handleImage} />
+            Photo URL: <input type='url' name='image_url' onChange={this.handleImage} />
             <Button className='submitButton' type='submit'>Submit</Button>
             <Button className='cancelButton' type='button' isHollow onClick={this.state.history.goBack}>Cancel</Button>
           </form>

@@ -34,12 +34,24 @@ class UserQuestions extends Component {
       .then((response) => {
         console.log(response)
         if (response.status === 200) {
-          this.setState({questions: response.body})
+          this.setState({
+            questions: response.body
+          })
         }
       })
       .catch((error) => {
         console.log('get Questions error', error.status)
       })
+  }
+
+  deleteQuestion () {
+    console.log('deleted', apiUrl(`/api/v1/questions/${this.state.questionId}`))
+    // request
+    //   .delete(apiUrl(`/api/v1/questions/${this.state.questionId}`))
+    //   .set('Authorization', 'Bearer ' + this.state.token)
+    //   .then(response => {
+    //     console.log(response)
+    //   })
   }
 
   renderQuestions () {
@@ -55,8 +67,8 @@ class UserQuestions extends Component {
         shortForm = content.slice(0, 300)
       } else { long = false }
 
-      let image = entry.image
-      if (image === 'image' || !image) {
+      let image = entry.image_url
+      if (image === null) {
         image = 'https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559'
       }
 
@@ -75,6 +87,7 @@ class UserQuestions extends Component {
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
               <Link to={`/questions/${id}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>
+              {/* {this.state.entry.questionID == this.state.questionId && <Button id={this.state.questionId} isHollow onClick={() => this.deleteQuestion()}>Delete Question</Button>} */}
             </MediaObjectSection>
           </MediaObject>
         </div>)

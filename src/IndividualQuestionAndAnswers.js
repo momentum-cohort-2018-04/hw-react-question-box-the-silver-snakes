@@ -27,7 +27,7 @@ class IndividualQuestionAndAnswers extends Component {
       .get(apiUrl(`/api/v1/questions/${this.state.questionId}`))
       .set('Authorization', 'Bearer ' + this.state.token)
       .then(response => {
-        console.log(response)
+        console.log(response.body)
         this.setState({
           entry: response.body,
           answerArray: response.body.answers
@@ -36,12 +36,13 @@ class IndividualQuestionAndAnswers extends Component {
   }
 
   deleteAnswer (event) {
-    request
-      .delete(apiUrl(`/api/v1/questions/${this.state.questionId}/answers/${event.target.id}`))
-      .set('Authorization', 'Bearer ' + this.state.token)
-      .then(response => {
-        console.log(response)
-      })
+    console.log('answer deleted', apiUrl(`/api/v1/questions/${this.state.questionId}/answers/${event.target.id}`))
+    // request
+    //   .delete(apiUrl(`/api/v1/questions/${this.state.questionId}/answers/${event.target.id}`))
+    //   .set('Authorization', 'Bearer ' + this.state.token)
+    //   .then(response => {
+    //     console.log(response)
+    //   })
   }
 
   deleteQuestion () {
@@ -70,12 +71,12 @@ class IndividualQuestionAndAnswers extends Component {
               <div className='question-info-main float-right'>Created on {moment(this.state.entry.created).format('MMM Do YYYY')}</div>
               <div className='clear' />
               <p className='question-content-main'>{this.state.entry.content}</p>
-              {this.state.entry.image !== 'image' && <img className='question-image' src={this.state.entry.image} alt='Unknown' />}
-              {this.state.entry.image === 'image' && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
+              {this.state.entry.image_url && <img className='question-image' src={this.state.entry.image_url} alt='Unknown' />}
+              {this.state.entry.image_url === null && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
               <div className='answerButtonDiv'>
                 <Link to={`/questions/${this.state.entry.questionID}/answers/add`}><Button className='postAnswerButton' onClick={this.submitAnAnswerToTrue}>Submit an Answer</Button></Link>
-                <Link to={`/questions/${this.state.entry.questionID}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>
-                {this.state.entry.questionID == this.state.questionId && <Button id={this.state.questionId} isHollow onClick={() => this.deleteQuestion()}>Delete Answer</Button>}
+                {Number(this.state.entry.userID) === Number(this.state.userId) && <Link to={`/questions/${this.state.entry.questionID}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>}
+                {Number(this.state.entry.userID) === Number(this.state.userId) && <Button id={this.state.questionId} isHollow onClick={() => this.deleteQuestion()}>Delete Question</Button>}
               </div>
             </div>
 
@@ -83,18 +84,18 @@ class IndividualQuestionAndAnswers extends Component {
               {this.state.answerArray.map((answer, i) => (
                 <div key={i} className='answerDiv'>
                   <hr />
-                  <h3 className='answer-title-header'>{answer.title}</h3>
+                  <h3 className='answer-title-header'>{answer.answerTitle}</h3>
                   <h5 className='answer-info-main'>{answer.answerUsername}</h5>
                   <p> {moment(answer.answerCreated).format('MMM Do YYYY')}</p>
                   <p className='answer-contenet-main'>{answer.answerContent}</p>
-                  {answer.answerimage !== 'image' && <img className='question-image' src={answer.answerimage} alt='Unknown' />}
-                  {answer.answerimage === 'image' && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
+                  {answer.image_url && <img className='question-image' src={answer.image_url} alt='Unknown' />}
+                  {answer.image_url === null && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
 
                   <br />
                   {answer.id === this.state.userId && <Link to='/edit/answer' ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
-                  <Button id={answer.id} onClick={(event) => this.verifyAnswer(event)}>Verify This Answer</Button>
+                  {Number(this.state.entry.userID) === Number(this.state.userId) && <Button id={answer.id} onClick={(event) => this.verifyAnswer(event)}>Verify This Answer</Button>}
 
-                  {answer.answerUserID == this.state.userId && <Button id={answer.id} isHollow onClick={(event) => this.deleteAnswer(event)}>Delete Answer</Button>}
+                  {Number(answer.answerUserID) === Number(this.state.userId) && <Button id={answer.id} isHollow onClick={(event) => this.deleteAnswer(event)}>Delete Answer</Button>}
                 </div>
               )
               )}
