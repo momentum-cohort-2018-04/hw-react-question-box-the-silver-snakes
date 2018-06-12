@@ -13,11 +13,10 @@ class EditQuestion extends Component {
     this.state = {
       token: window.localStorage.token ? window.localStorage.token : '',
       id: window.localStorage.user ? window.localStorage.user : '',
-      questionId: this.props.questionId,
-      userId: this.props.questionuserId,
-      title: this.props.questionTitle,
-      content: this.props.questionContent,
-      image: this.props.questionImage,
+      questionId: this.props.match.params.id,
+      title: '',
+      content: '',
+      image_url: '',
       donePosting: false,
       history: this.props.history
     }
@@ -35,7 +34,9 @@ class EditQuestion extends Component {
       .then((response) => {
         console.log(response)
         if (response.status === 200) {
-          this.setState({questions: response.body})
+          this.setState({title: response.body.title,
+            content: response.body.content,
+            image_url: response.body.image_url})
         }
       })
       .catch((error) => {
@@ -91,6 +92,7 @@ class EditQuestion extends Component {
   }
 
   render () {
+    console.log(this.props)
     return (
       <Router >
         <div>
