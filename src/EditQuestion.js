@@ -91,7 +91,8 @@ class EditQuestion extends Component {
     }
   }
 
-  changePostingStatus () {
+  changePostingStatus (event) {
+    event.preventDefault()
     this.setState({donePosting: true})
   }
 
