@@ -16,7 +16,7 @@ class EditQuestion extends Component {
       questionId: this.props.match.params.id,
       title: '',
       content: '',
-      image_url: '',
+      image: '',
       donePosting: false,
       history: this.props.history
     }
@@ -24,6 +24,7 @@ class EditQuestion extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
     this.getQuestion = this.getQuestion.bind(this)
+    this.changePostingStatus = this.changePostingStatus.bind(this)
     this.getQuestion()
   }
 
@@ -36,7 +37,7 @@ class EditQuestion extends Component {
         if (response.status === 200) {
           this.setState({title: response.body.title,
             content: response.body.content,
-            image_url: response.body.image_url})
+            image: response.body.image_url})
         }
       })
       .catch((error) => {
@@ -54,18 +55,17 @@ class EditQuestion extends Component {
       image: this.state.image,
       token: window.localStorage.token
     }
-    console.log(body)
+    console.log(this.body)
     request
       .put(apiUrl(`/questions/${this.state.questionId}`))
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .then((response) => {
         if (response.status === 201) {
-          // this.changePostingStatus()
+          console.log('posted')
           this.state.history.push('/')
         }
       })
-      .end()
   }
 
   componentDidMount () {
@@ -91,25 +91,33 @@ class EditQuestion extends Component {
     }
   }
 
+  changePostingStatus () {
+    this.setState({donePosting: true})
+  }
+
   render () {
-    console.log(this.props)
-    return (
-      <Router >
-        <div>
-          <Route exact path={`/questions/${this.state.questionId}/edit`} render={() =>
-            <div>
-              <h2 className='header'>Edit My Question</h2>
-              <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
+    // console.log(this.props)
+    if (this.state.donePosting) {
+      console.log('edited')
+    } else {
+      return (
+        <Router >
+          <div>
+            <Route exact path={`/questions/${this.state.questionId}/edit`} render={() =>
+              <div>
+                <h2 className='header'>Edit My Question</h2>
+                <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
             Title: <input type='text' name='title' value={this.state.title} onChange={this.handleChange} />
             Question: <textarea className='content-textarea' type='textarea' name='content' value={this.state.content} onChange={this.handleChange} />
             Photo URL: <input type='url' name='image' value={this.state.image} onChange={this.handleImage} />
-                <Button className='submitButton' type='submit'>Submit</Button>
-                <Button className='cancelButton' onClick={this.state.history.goBack} isHollow>Cancel</Button>
-              </form>
-            </div>} />
-        </div>
-      </Router>
-    )
+                  <Button className='submitButton' type='submit'>Submit</Button>
+                  <Button className='cancelButton' onClick={this.state.history.goBack} isHollow>Cancel</Button>
+                </form>
+              </div>} />
+          </div>
+        </Router>
+      )
+    }
   }
 }
 
