@@ -63,7 +63,7 @@ class EditQuestion extends Component {
       .then((response) => {
         if (response.status === 201) {
           console.log('posted')
-          this.state.history.push('/')
+          this.state.history.push(`/questions/${this.state.questionId}`)
         }
       })
   }
