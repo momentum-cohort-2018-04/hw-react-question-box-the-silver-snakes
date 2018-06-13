@@ -49,13 +49,13 @@ class EditQuestion extends Component {
     event.preventDefault()
     const body = {
       questionId: this.state.questionId,
-      userId: this.state.userId,
+      userId: this.state.id,
       title: this.state.title,
       content: this.state.content,
       image: this.state.image,
       token: window.localStorage.token
     }
-    console.log(this.body)
+    console.log(body)
     request
       .put(apiUrl(`/questions/${this.state.questionId}`))
       .set('Authorization', 'Bearer ' + this.state.token)
