@@ -44,14 +44,15 @@ class UserQuestions extends Component {
       })
   }
 
-  deleteQuestion () {
+  deleteQuestion (event) {
+    event.prevenDefault()
     console.log('deleted', apiUrl(`/api/v1/questions/${this.state.questionId}`))
-    // request
-    //   .delete(apiUrl(`/api/v1/questions/${this.state.questionId}`))
-    //   .set('Authorization', 'Bearer ' + this.state.token)
-    //   .then(response => {
-    //     console.log(response)
-    //   })
+    request
+      .delete(apiUrl(`/api/v1/questions/${this.state.questionId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then(response => {
+        console.log(response)
+      })
   }
 
   renderQuestions () {
@@ -78,16 +79,18 @@ class UserQuestions extends Component {
         <div className='question-each' key={index} id={id}>
           <MediaObject stackForSmall>
             <MediaObjectSection isMiddle>
-              {image && <Thumbnail className='question-preview-img' src={image} />}
+              <Link to={`questions/${id}`}>
+                {image && <Thumbnail className='question-preview-img' src={image} alt='unknown' />}
+              </Link>
             </MediaObjectSection>
-            <MediaObjectSection isMiddle>
+            <MediaObjectSection isMiddle className='question-data'>
               <h5 className='question-title'>{title}</h5>
               <p className='text-left question-info'>Posted on <strong>{created}</strong>, last updated<strong> {updated}</strong></p>
               {/* <p className='text-right question-info' id={userid}><small>asked by user</small> {user}</p> */}
               {long && <p className='question-content'>{shortForm} ...</p>}
               {!long && <p className='question-content'>{content}</p>}
-              <Link to={`/questions/${id}/edit`} ><Button className='edit-question-button'>Edit Question</Button></Link>
-              {/* {this.state.entry.questionID == this.state.questionId && <Button id={this.state.questionId} isHollow onClick={() => this.deleteQuestion()}>Delete Question</Button>} */}
+              <Link to={`/questions/${id}/edit`} ><Button className='edit-question-button-user'>Edit Question</Button></Link>
+              {Number(entry.id) === Number(this.state.questionId) && <Button id={this.state.questionId} isHollow onClick={(event) => this.deleteQuestion(event)}>Delete Question</Button>}
             </MediaObjectSection>
           </MediaObject>
         </div>)

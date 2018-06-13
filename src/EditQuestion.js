@@ -55,7 +55,6 @@ class EditQuestion extends Component {
       image: this.state.image,
       token: window.localStorage.token
     }
-    console.log(body)
     request
       .put(apiUrl(`/api/v1/questions/${this.state.questionId}`))
       .set('Authorization', 'Bearer ' + this.state.token)
