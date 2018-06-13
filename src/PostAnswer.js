@@ -1,55 +1,49 @@
 import React, { Component } from 'react'
 import './App.css'
-// import request from 'superagent'
+import request from 'superagent'
 // import moment from 'moment'
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
-import IndividualQuestionAndAnswers from './IndividualQuestionAndAnswers'
 import {Button} from 'react-foundation'
 import './foundation.css'
+import apiUrl from './apiUrl'
 
 class PostAnswer extends Component {
   constructor (props) {
     super(props)
+    console.log(this.props)
     this.state = {
-      // questionId: this.props.questionId,
-      // userId: '',
-      // title: '',
-      // content: '',
-      image: 'https://tinyurl.com/yb7ek22r',
-      donePosting: false,
+      questionId: this.props.match.params.id,
+      userId: window.localStorage.user ? window.localStorage.user : '',
+      token: window.localStorage.token ? window.localStorage.token : '',
+      title: '',
+      content: '',
+      image_url: '',
       history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
-    this.changePostingStatus = this.changePostingStatus.bind(this)
   }
 
   handleSubmit (event) {
     event.preventDefault()
     const body = {
-      questionId: this.props.questionId,
-      answerId: this.state.answerId,
-      userId: this.state.userId,
+      question_id: Number(this.state.questionId),
+      user_id: Number(this.state.userId),
       title: this.state.title,
       content: this.state.content,
-      image: this.state.image,
-      token: window.localStorage.token,
-      donePosting: false
+      image_url: this.state.image_url
     }
     console.log(body)
-    event.preventDefault()
-    // request
-    //   .post(`api/v1/questions/${this.state.questionId}/answers`)
-    //   .set('Authorization', 'Bearer ' + this.state.token)
-    //   .send(body)
-    //   .then((response) => {
-    //     if (response.status === 201) {
-    //       this.changePostingStatus()
-    //       this.state.history.push('/')
-    //     }
-    //   })
-    //   .end()
+    request
+      .post(apiUrl(`/api/v1/questions/${this.state.questionId}/answers`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .send(body)
+      .then((response) => {
+        console.log(response.status)
+        if (response.status === 200) {
+          this.props.history.push(`/questions/${this.state.questionId}`)
+        }
+      })
   }
 
   handleChange (event) {
@@ -68,28 +62,19 @@ class PostAnswer extends Component {
     }
   }
 
-  changePostingStatus () {
-    this.setState({donePosting: true})
-  }
-
   render () {
-    if (this.state.donePosting) {
-      return (
-        <IndividualQuestionAndAnswers questionId={this.questionId} />)
-    } else {
-      return (
-        <div className='fullcenter'>
-          <h2 className='header'>Answer a Question</h2>
-          <form className='postAnswerForm' type='submit' onSubmit={this.handleSubmit}>
+    return (
+      <div className='fullcenter'>
+        <h2 className='header'>Answer a Question</h2>
+        <form className='postAnswerForm' onSubmit={this.handleSubmit} >
             Title: <input type='text' name='title' onChange={this.handleChange} />
-            Answer: <input type='textarea' className='content-textarea' name='content' onChange={this.handleChange} />
-            Photo URL: <input type='url' name='image' onChange={this.handleImage} />
-            <Button className='submitButton' type='submit'>Submit</Button>
-            <Button className='cancelButton' onClick={this.state.history.goBack} isHollow >Cancel</Button>
-          </form>
-        </div>
-      )
-    }
+            Answer: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
+            Photo URL: <input type='url' name='image_url' onChange={this.handleImage} />
+          <Button className='submitButton' type='submit'>Submit</Button>
+          <Button className='cancelButton' isHollow type='button' onClick={this.props.history.goBack}>Cancel</Button>
+        </form>
+      </div>
+    )
   }
 }
 

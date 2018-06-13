@@ -40,6 +40,19 @@ h1, h2, h3, h4, h5 {
 .text-right{
   text-align: right;
 }
+.text-left{
+  text-align: left;
+}
+.float-right{
+  float: right;
+}
+.float-left{
+  float: left;
+  clear: left;
+}
+.clear{
+  clear: both;
+}
 .text-center{
   text-align: center;
 }
@@ -122,10 +135,34 @@ h1, h2, h3, h4, h5 {
 .question-image {
   margin: 15px 0 50px 0;
 }
-
+.question-data{
+  position: relative;
+}
 .question-title-header {
   text-align: left;
   font-size: 1.5rem;
+}
+.question-subtitle {
+  font-size: .95rem;
+}
+
+.edit-question-button-user {
+  position: absolute;
+  bottom: 0;
+  left: 1.2rem;
+}
+
+.verified{
+  width: 80%;
+  margin: .5rem 10%;
+  text-align: center;
+  border-radius: .5rem;
+  padding: .5rem 0;
+}
+
+.login-prompt {
+  width: 30%;
+  margin: 0 auto;
 }
 
 .answer-title-header {
