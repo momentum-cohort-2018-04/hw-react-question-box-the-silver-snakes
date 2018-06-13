@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { storiesOf } from '@storybook/react'
+import { storiesOf, addDecorator } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Button, Welcome } from '@storybook/react/demo'
+import { MemoryRouter as Router } from 'react-router-dom'
 
 import PostAQuestion from '../PostQuestion'
 import '../App.css'
@@ -25,6 +26,14 @@ const fakeHistory = {
   }
 }
 
+const fakeMatch = {
+  params: {
+    id: 1
+  }
+}
+
+addDecorator(story => (<Router>{story()}</Router>))
+
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
 storiesOf('Button', module)
@@ -41,13 +50,13 @@ storiesOf('PostQuestion', module)
   .add('with text', () => <PostAQuestion history={fakeHistory} />)
 
 storiesOf('PostAnswer', module)
-  .add('simpleRender', () => <PostAnswer questionId='2' history={fakeHistory} />)
+  .add('simpleRender', () => <PostAnswer questionId='2' match={fakeMatch} history={fakeHistory} />)
 
 storiesOf('Questions', module)
   .add('simpleRender', () => <Questions />)
 
 storiesOf('IndividualQuestionsAndAnswers', module)
-  .add('simpleRender', () => <IndividualQuestionAndAnswers history={fakeHistory} questions={dbAll.questions} />)
+  .add('simpleRender', () => <IndividualQuestionAndAnswers history={fakeHistory} match={fakeMatch} questions={dbAll.questions} />)
 
 storiesOf('BaseLogin', module)
   .add('simpleRender', () => <Login />)

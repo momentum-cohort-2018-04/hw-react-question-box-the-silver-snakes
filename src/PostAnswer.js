@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 import request from 'superagent'
 // import moment from 'moment'
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
 import {Button} from 'react-foundation'
 import './foundation.css'
 import apiUrl from './apiUrl'
@@ -23,7 +22,6 @@ class PostAnswer extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
-    this.goRoot = this.goRoot.bind(this)
   }
 
   handleSubmit (event) {
@@ -43,7 +41,7 @@ class PostAnswer extends Component {
       .then((response) => {
         console.log(response.status)
         if (response.status === 200) {
-          this.props.history.push('/')
+          this.props.history.push(`/questions/${this.state.questionId}`)
         }
       })
   }
@@ -64,10 +62,6 @@ class PostAnswer extends Component {
     }
   }
 
-  goRoot () {
-    this.props.history.push(`/questions/${this.state.questionId}`)
-  }
-
   render () {
     return (
       <div className='fullcenter'>
@@ -77,9 +71,8 @@ class PostAnswer extends Component {
             Answer: <textarea className='content-textarea' type='textarea' name='content' onChange={this.handleChange} />
             Photo URL: <input type='url' name='image_url' onChange={this.handleImage} />
           <Button className='submitButton' type='submit'>Submit</Button>
-          <Button className='cancelButton' isHollow onClick={this.goRoot}>Cancel</Button>
+          <Button className='cancelButton' isHollow type='button' onClick={this.props.history.goBack}>Cancel</Button>
         </form>
-
       </div>
     )
   }

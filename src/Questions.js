@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import request from 'superagent'
-import {MediaObject, MediaObjectSection, Thumbnail, Button} from 'react-foundation'
+import {MediaObject, MediaObjectSection, Thumbnail, Button, Callout, Colors} from 'react-foundation'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import apiUrl from './apiUrl'
@@ -92,7 +92,7 @@ class Questions extends Component {
         <div className='title'><h1>What is This <img className='title-logo' src='https://tinyurl.com/yb7ek22r' alt='logo' /></h1></div>
         <div className='text-center'>
           {this.state.token && <Link to='/add'><Button className='button ask-button'>Ask A Question</Button></Link>}
-          {!this.state.token && 'Login to ask and answer questions'}</div>
+          {!this.state.token && <Callout className='login-prompt' color={Colors.SECONDARY}>Login to ask and answer questions</Callout>}</div>
         <div className='questionsAll'>{questionList}</div>
       </div>
     )
