@@ -103,7 +103,7 @@ class IndividualQuestionAndAnswers extends Component {
               {fullArray.map((answer, i) => (
                 <div key={i} className='answerDiv'>
                   <hr />
-                  {answer.verify === true && <Label color={Colors.SUCCESS} className='verified'>Verified</Label>}
+                  {answer.verify === true && <Label color={Colors.PRIMARY} className='verified'>Verified</Label>}
                   <h3 className='answer-title-header'>{answer.answerTitle}</h3>
                   <h5 className='answer-info-main'>Answered by {answer.answerUsername}</h5>
                   <p> {moment(answer.answerCreated).format('MMM Do YYYY')}</p>

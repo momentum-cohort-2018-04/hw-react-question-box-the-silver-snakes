@@ -55,13 +55,12 @@ class EditQuestion extends Component {
       image: this.state.image,
       token: window.localStorage.token
     }
-    console.log(body)
     request
-      .put(apiUrl(`/questions/${this.state.questionId}`))
+      .put(apiUrl(`/api/v1/questions/${this.state.questionId}`))
       .set('Authorization', 'Bearer ' + this.state.token)
       .send(body)
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           console.log('posted')
           this.state.history.push(`/questions/${this.state.questionId}`)
         }
