@@ -72,7 +72,7 @@ class Register extends Component {
       <div className='title' > <h1 > Register </h1></div >
       <form onSubmit={(event) => this.attemptLogin(event)} >
         <label > Username </label> <input type='text' name='username' placeholder='create your username' onChange={(event) => this.handleChange(event)} />
-        <label > Password </label > <input type='text' name='password' placeholder='create your password' onChange={(event) => this.handleChange(event)} />
+        <label > Password </label > <input type='password' name='password' placeholder='create your password' onChange={(event) => this.handleChange(event)} />
         <label > Password Confirmation </label > <input type='text' name='passwordDup' placeholder='confirm your password' onChange={(event) => this.handleChange(event)} />
         { this.state.password !== '' && this.state.password === this.state.passwordDup && <div className='input-success' > Your Passwords Match! </div>} {
           this.state.password && this.state.passwordDup && this.state.password !== this.state.passwordDup && <div className='input-warning' > Passwords Do Not Match! </div>} {

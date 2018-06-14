@@ -52,7 +52,7 @@ class Login extends Component {
           <label>Username</label>
           <input type='text' name='username' placeholder='enter username' onChange={(event) => this.handleChange(event)} />
           <label>Password</label>
-          <input type='text' name='password' placeholder='enter password' onChange={(event) => this.handleChange(event)} />
+          <input type='password' name='password' placeholder='enter password' onChange={(event) => this.handleChange(event)} />
           {!this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
           {!this.state.username && this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
           {this.state.username && !this.state.password && <Button isExpanded isDisabled type='submit' >Submit</Button>}
