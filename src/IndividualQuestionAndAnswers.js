@@ -32,6 +32,7 @@ class IndividualQuestionAndAnswers extends Component {
           entry: response.body,
           answerArray: response.body.answers
         })
+        console.log(this.state.entry)
       })
   }
 
@@ -107,12 +108,12 @@ class IndividualQuestionAndAnswers extends Component {
                   <h3 className='answer-title-header'>{answer.answerTitle}</h3>
                   <h5 className='answer-info-main'>Answered by {answer.answerUsername}</h5>
                   <p> {moment(answer.answerCreated).format('MMM Do YYYY')}</p>
-                  <p className='answer-contenet-main'>{answer.answerContent}</p>
+                  <p className='answer-content-main'>{answer.answerContent}</p>
                   {answer.image_url && <img className='question-image' src={answer.image_url} alt='Unknown' />}
                   {answer.image_url === null && <img className='question-image' src='https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI3OTQ0fQ&s=1c03ebe02c8706d5cabccd3657f80559' alt='Unknown' />}
 
                   <br />
-                  {answer.id === this.state.userId && <Link to='/edit/answer' ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
+                  {Number(answer.answerUserID) === Number(this.state.userId) && <Link to={`//questions/${this.state.entry.questionID}/answers/${this.state.entry.answerId}/edit`} ><Button className='edit-answer-button'>Edit Answer</Button></Link>}
                   {Number(this.state.entry.userID) === Number(this.state.userId) && answer.verify === false && <Button id={answer.id} onClick={(event) => this.verification(event, 't')}>Verify This Answer</Button>}
                   {Number(this.state.entry.userID) === Number(this.state.userId) && answer.verify === true && <Button id={answer.id} onClick={(event) => this.verification(event, 'f')}>Un-verify Answer</Button>}
 

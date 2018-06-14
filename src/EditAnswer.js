@@ -1,26 +1,32 @@
 import React, { Component } from 'react'
-// import request from 'superagent'
+import request from 'superagent'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import {Button} from 'react-foundation'
 import './foundation.css'
 import './App.css'
+import apiUrl from './apiUrl'
 
 class EditAnswer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questionId: this.props.questionId,
-      answerId: this.props.questionanswerId,
+      token: window.localStorage.token ? window.localStorage.token : '',
+      id: window.localStorage.user ? window.localStorage.user : '',
+      questionId: this.props.match.params.id,
+      // answerId: this.props.questionanswerId,
       userId: this.props.questionuserId,
-      title: this.props.questionTitle,
-      content: this.props.questionContent,
-      image: this.props.questionImage,
+      title: '',
+      content: '',
+      image: '',
       donePosting: false,
       history: this.props.history
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImage = this.handleImage.bind(this)
+    this.getAnswer = this.getAnswer.bind(this)
+    // this.changePostingStatus = this.changePostingStatus.bind(this)
+    // this.getQuestion()
   }
 
   handleSubmit (event) {
@@ -37,15 +43,15 @@ class EditAnswer extends Component {
     console.log(body)
     event.preventDefault()
     // request
-    //   .put(`api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`)
-    //   .set('Authorization', 'Bearer ' + this.state.token)
-    //   .send(body)
-    //   .then((response) => {
-    //     if (response.status === 201) {
-    //       // this.changePostingStatus()
-    //       this.state.history.push('/')
-    //     }
-    //   })
+      .put(apiUrl(`api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .send(body)
+      .then((response) => {
+        if (response.status === 200) {
+          // this.changePostingStatus()
+          this.state.history.push(`/questions/${this.state.questionId}/answers/${this.state.answerId}`)
+        }
+      })
   }
 
   handleChange (event) {
@@ -62,6 +68,23 @@ class EditAnswer extends Component {
     if (value) {
       this.setState({[name]: value})
     }
+  }
+
+  getAnswer () {
+    request
+      .get(apiUrl(`/api/v1/questions/${this.state.questionId}/answers/${this.state.answerId}`))
+      .set('Authorization', 'Bearer ' + this.state.token)
+      .then((response) => {
+        console.log(response)
+        if (response.status === 200) {
+          this.setState({title: response.body.title,
+            content: response.body.content,
+            image: response.body.image_url})
+        }
+      })
+      .catch((error) => {
+        console.log('get Question error', error.status)
+      })
   }
 
   render () {
